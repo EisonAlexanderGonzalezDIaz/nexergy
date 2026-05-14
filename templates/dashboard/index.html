@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block titulo %}Dashboard{% endblock %}
+{% block page_title %}<i class="bi bi-speedometer2"></i> Dashboard — Huella de Carbono {% if entidad %}· {{ entidad.nombre }}{% endif %}{% endblock %}
+
+{% block content %}
+
+<!-- Selector de año -->
+<div class="d-flex align-items-center gap-2 mb-3">
+  <span class="text-muted small">Año:</span>
+  <div class="btn-group btn-group-sm">
+    {% for a in años %}
+    <a href="?año={{ a }}"
+       class="btn {% if a == año %}btn-success{% else %}btn-outline-secondary{% endif %}">
+      {{ a }}
+    </a>
+    {% endfor %}
+  </div>
+  <a href="{% url 'reportes:pdf' %}?año={{ año }}" class="btn btn-sm btn-outline-danger ms-auto">
+    <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+  </a>
+</div>
+
+<!-- KPIs -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="kpi-card total-card">
+      <div class="kpi-value">{{ resumen.total|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-label"><i class="bi bi-globe"></i> Total tCO₂e ({{ año }})</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card">
+      <div class="kpi-value">{{ resumen.alcance_1|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-label"><i class="bi bi-fuel-pump"></i> Alcance 1 — Combustibles</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card alcance-2">
+      <div class="kpi-value">{{ resumen.alcance_2|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-label"><i class="bi bi-lightning-charge"></i> Alcance 2 — Electricidad</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card alcance-3">
+      <div class="kpi-value">{{ resumen.alcance_3|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-label"><i class="bi bi-recycle"></i> Alcance 3 — Residuos</div>
+    </div>
+  </div>
+</div>
+
+<!-- Gráficas fila 1 -->
+<div class="row g-3 mb-4">
+  <!-- Tendencia mensual -->
+  <div class="col-md-8">
+    <div class="chart-card">
+      <h6><i class="bi bi-graph-up"></i> Emisiones mensuales (tCO₂e) — {{ año }}</h6>
+      <canvas id="chartTendencia" height="110"></canvas>
+    </div>
+  </div>
+  <!-- Donut por alcance -->
+  <div class="col-md-4">
+    <div class="chart-card">
+      <h6><i class="bi bi-pie-chart"></i> Distribución por Alcance</h6>
+      <canvas id="chartDonut" height="170"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Gráfica comparativa regional -->
+<div class="row g-3 mb-4">
+  <div class="col-12">
+    <div class="chart-card">
+      <h6><i class="bi bi-bar-chart-horizontal"></i> Comparativa Regional — Emisiones por Municipio (tCO₂e) {{ año }}</h6>
+      <canvas id="chartComparativa" height="80"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Top fuentes -->
+{% if resumen.por_categoria %}
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="chart-card">
+      <h6><i class="bi bi-list-ol"></i> Top fuentes de emisión</h6>
+      <table class="table table-sm table-nexergy mt-2">
+        <thead><tr><th>#</th><th>Categoría</th><th class="text-end">tCO₂e</th></tr></thead>
+        <tbody>
+          {% for cat in resumen.por_categoria %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ cat.categoria }}</td>
+            <td class="text-end fw-bold">{{ cat.total|floatformat:4 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="chart-card d-flex flex-column justify-content-center align-items-center h-100">
+      <i class="bi bi-lightbulb" style="font-size:3rem; color:#1A6B3C;"></i>
+      <p class="mt-2 text-center text-muted">
+        Basado en tus datos, NEXERGY generó recomendaciones de energías verdes.<br>
+        <a href="{% url 'recomendaciones:lista' %}" class="btn btn-sm btn-success mt-2">
+          Ver recomendaciones <i class="bi bi-arrow-right"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-info">
+  <i class="bi bi-info-circle"></i>
+  Aún no hay datos registrados para {{ año }}.
+  <a href="{% url 'consumos:nuevo' %}" class="alert-link">Registra tu primer consumo aquí.</a>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Colores NEXERGY ────────────────────────────────
+const VERDE       = '#1A6B3C';
+const VERDE_CLARO = '#81C784';
+const AZUL        = '#1565C0';
+const NARANJA     = '#E65100';
+
+// ── Gráfica de tendencia mensual (barras) ──────────
+const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+new Chart(document.getElementById('chartTendencia'), {
+  type: 'bar',
+  data: {
+    labels: meses,
+    datasets: [{
+      label: 'tCO₂e',
+      data: {{ tendencia_datos }},
+      backgroundColor: VERDE + 'CC',
+      borderColor: VERDE,
+      borderWidth: 1,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, title: { display: true, text: 'tCO₂e' } } }
+  }
+});
+
+// ── Gráfica donut por alcance ──────────────────────
+new Chart(document.getElementById('chartDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Alcance 1', 'Alcance 2', 'Alcance 3'],
+    datasets: [{
+      data: {{ alcance_datos }},
+      backgroundColor: [VERDE, AZUL, NARANJA],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    cutout: '65%'
+  }
+});
+
+// ── Gráfica comparativa regional (horizontal) ─────
+new Chart(document.getElementById('chartComparativa'), {
+  type: 'bar',
+  data: {
+    labels: {{ comp_labels|safe }},
+    datasets: [{
+      label: 'tCO₂e',
+      data: {{ comp_datos }},
+      backgroundColor: {{ comp_labels|safe }}.map((_, i) =>
+        i === 0 ? NARANJA : (i === 1 ? '#FF8F00' : VERDE + '99')
+      ),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, title: { display: true, text: 'tCO₂e' } } }
+  }
+});
+</script>
+{% endblock %}

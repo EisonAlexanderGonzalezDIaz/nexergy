@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}Entidades{% endblock %}
+{% block page_title %}<i class="bi bi-building"></i> Gestión de Entidades{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3">
+  <a href="{% url 'entidades:nueva' %}" class="btn btn-success btn-sm">
+    <i class="bi bi-plus-circle"></i> Nueva entidad
+  </a>
+</div>
+<div class="chart-card">
+  <table class="table table-hover table-nexergy align-middle">
+    <thead><tr><th>Nombre</th><th>Municipio</th><th>Tipo</th><th>NIT</th><th></th></tr></thead>
+    <tbody>
+      {% for e in entidades %}
+      <tr>
+        <td>{{ e.nombre }}</td>
+        <td>{{ e.municipio }}</td>
+        <td>{{ e.get_tipo_display }}</td>
+        <td>{{ e.nit }}</td>
+        <td><a href="{% url 'entidades:editar' e.pk %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center text-muted py-4">No hay entidades registradas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

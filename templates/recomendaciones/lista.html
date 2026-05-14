@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block titulo %}Recomendaciones{% endblock %}
+{% block page_title %}<i class="bi bi-lightbulb"></i> Recomendaciones de Energías Verdes{% endblock %}
+{% block content %}
+
+{% if not recomendaciones %}
+<div class="alert alert-info">
+  <i class="bi bi-info-circle"></i>
+  Aún no hay recomendaciones. Registra consumos en el dashboard para generarlas automáticamente.
+</div>
+{% else %}
+<p class="text-muted small mb-3">
+  Recomendaciones generadas automáticamente por NEXERGY según las principales fuentes de emisión de
+  <strong>{{ entidad.nombre }}</strong>.
+</p>
+<div class="row g-3">
+  {% for rec in recomendaciones %}
+  <div class="col-md-6">
+    <div class="chart-card h-100 d-flex flex-column">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <h6 class="mb-0" style="color:#0D3B22;">{{ rec.titulo }}</h6>
+        <!-- Badge viabilidad -->
+        <span class="badge badge-{{ rec.viabilidad|lower }} ms-2 flex-shrink-0">
+          {{ rec.get_viabilidad_display }}
+        </span>
+      </div>
+
+      <p class="text-muted small flex-grow-1">{{ rec.descripcion }}</p>
+
+      <div class="row g-2 text-center mb-3">
+        <div class="col-6">
+          <div class="p-2 rounded" style="background:#E8F5E9;">
+            <div class="fw-bold text-success">{{ rec.reduccion_estimada|floatformat:1 }} tCO₂e</div>
+            <div class="text-muted" style="font-size:.75rem;">Reducción estimada/año</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="p-2 rounded" style="background:#F5F5F5;">
+            <div class="fw-bold text-secondary small">{{ rec.costo_referencial|default:"N/D" }}</div>
+            <div class="text-muted" style="font-size:.75rem;">Costo referencial</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cambiar estado -->
+      <form method="post" action="{% url 'recomendaciones:estado' rec.pk %}" class="d-flex gap-2 align-items-center">
+        {% csrf_token %}
+        <select name="estado" class="form-select form-select-sm flex-grow-1">
+          {% for val, label in rec.ESTADO_CHOICES %}
+          <option value="{{ val }}" {% if rec.estado == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <button class="btn btn-sm btn-outline-success">Guardar</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

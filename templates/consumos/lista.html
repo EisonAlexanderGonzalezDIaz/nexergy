@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block titulo %}Mis Consumos{% endblock %}
+{% block page_title %}<i class="bi bi-clipboard-data"></i> Mis Consumos — {{ entidad.nombre }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <span class="text-muted small">Registros de consumo energético de tu entidad</span>
+  <a href="{% url 'consumos:nuevo' %}" class="btn btn-success btn-sm">
+    <i class="bi bi-plus-circle"></i> Nuevo consumo
+  </a>
+</div>
+
+<div class="chart-card">
+  {% if consumos %}
+  <table class="table table-hover table-nexergy align-middle">
+    <thead>
+      <tr>
+        <th>Tipo</th><th>Alcance</th><th class="text-center">Mes/Año</th>
+        <th class="text-end">Cantidad</th><th class="text-end">tCO₂e</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in consumos %}
+      <tr>
+        <td>{{ c.factor_emision.subcategoria }}</td>
+        <td><span class="badge bg-success">Alcance {{ c.alcance }}</span></td>
+        <td class="text-center">{{ c.mes|stringformat:"02d" }}/{{ c.año }}</td>
+        <td class="text-end">{{ c.valor }} {{ c.factor_emision.unidad }}</td>
+        <td class="text-end fw-bold">
+          {% if c.emision %}{{ c.emision.tco2e|floatformat:4 }}{% else %}-{% endif %}
+        </td>
+        <td>
+          <form method="post" action="{% url 'consumos:eliminar' c.pk %}" class="d-inline">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger"
+                    onclick="return confirm('¿Eliminar este registro?')">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-inbox" style="font-size:3rem;"></i>
+    <p class="mt-2">No hay consumos registrados aún.</p>
+    <a href="{% url 'consumos:nuevo' %}" class="btn btn-success">
+      <i class="bi bi-plus-circle"></i> Registrar primer consumo
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

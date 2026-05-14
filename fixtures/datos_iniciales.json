@@ -1,0 +1,48 @@
+[
+  {"model": "entidades.municipio", "pk": 1,  "fields": {"nombre": "Cajicá",      "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 2,  "fields": {"nombre": "Chía",        "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 3,  "fields": {"nombre": "Cogua",       "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 4,  "fields": {"nombre": "Cota",        "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 5,  "fields": {"nombre": "Gachancipá",  "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 6,  "fields": {"nombre": "Nemocón",     "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 7,  "fields": {"nombre": "Sopó",        "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 8,  "fields": {"nombre": "Tabio",       "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 9,  "fields": {"nombre": "Tenjo",       "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 10, "fields": {"nombre": "Tocancipá",   "departamento": "Cundinamarca"}},
+  {"model": "entidades.municipio", "pk": 11, "fields": {"nombre": "Zipaquirá",   "departamento": "Cundinamarca"}},
+
+  {"model": "consumos.factoremision", "pk": 1, "fields": {
+    "categoria": "Gasolina", "subcategoria": "Gasolina corriente (vehículos)",
+    "valor": "2.310000", "unidad": "litro",
+    "fuente": "IPCC AR6 / Factor promedio gasolina", "año_referencia": 2021}},
+
+  {"model": "consumos.factoremision", "pk": 2, "fields": {
+    "categoria": "ACPM", "subcategoria": "ACPM / Diésel (vehículos y maquinaria)",
+    "valor": "2.670000", "unidad": "litro",
+    "fuente": "IPCC AR6 / Factor promedio diésel", "año_referencia": 2021}},
+
+  {"model": "consumos.factoremision", "pk": 3, "fields": {
+    "categoria": "Gas natural", "subcategoria": "Gas natural (calderas y calefacción)",
+    "valor": "2.020000", "unidad": "m3",
+    "fuente": "IPCC AR6 / Gas natural GCV promedio", "año_referencia": 2021}},
+
+  {"model": "consumos.factoremision", "pk": 4, "fields": {
+    "categoria": "GLP", "subcategoria": "Gas licuado de petróleo (GLP)",
+    "valor": "3.010000", "unidad": "litro",
+    "fuente": "IPCC AR6 / LPG factor", "año_referencia": 2021}},
+
+  {"model": "consumos.factoremision", "pk": 5, "fields": {
+    "categoria": "Energía eléctrica", "subcategoria": "Energía eléctrica — Red nacional SIN Colombia",
+    "valor": "0.195000", "unidad": "kWh",
+    "fuente": "UPME — Factor de emisión SIN Colombia 2023", "año_referencia": 2023}},
+
+  {"model": "consumos.factoremision", "pk": 6, "fields": {
+    "categoria": "Residuos sólidos", "subcategoria": "Residuos sólidos en relleno sanitario",
+    "valor": "467.000000", "unidad": "tonelada",
+    "fuente": "IPCC AR6 — CH4 residuos urbanos Colombia (kgCO2e/t)", "año_referencia": 2021}},
+
+  {"model": "consumos.factoremision", "pk": 7, "fields": {
+    "categoria": "Residuos sólidos", "subcategoria": "Residuos aprovechados (reciclaje/compostaje)",
+    "valor": "21.000000", "unidad": "tonelada",
+    "fuente": "IPCC AR6 — Factor residuos aprovechados", "año_referencia": 2021}}
+]

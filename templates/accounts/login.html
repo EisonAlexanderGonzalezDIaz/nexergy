@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXERGY — Iniciar sesión</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(135deg, #0D3B22 0%, #1A6B3C 60%, #2E7D32 100%); min-height: 100vh; display:flex; align-items:center; justify-content:center; }
+    .login-card { background: #fff; border-radius: 20px; padding: 2.5rem 2rem; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .brand { font-size: 2.4rem; font-weight: 700; color: #1A6B3C; letter-spacing: 3px; }
+    .brand span { color: #0D3B22; }
+    .btn-nexergy { background: #1A6B3C; color: #fff; border: none; border-radius: 8px; padding: .7rem; font-weight: 600; }
+    .btn-nexergy:hover { background: #0D3B22; color: #fff; }
+  </style>
+</head>
+<body>
+<div class="login-card text-center">
+  {% load static %}
+  <img src="{% static 'img/logo_nexergy_sidebar.png' %}" alt="NEXERGY" 
+       style="width:220px; margin-bottom:.5rem;">
+  <p class="text-muted mb-4" style="font-size:.9rem;">Huella de Carbono · Sabana Centro</p>
+
+  {% for msg in messages %}
+  <div class="alert alert-danger py-2">{{ msg }}</div>
+  {% endfor %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3 text-start">
+      <label class="form-label fw-semibold">Usuario</label>
+      {{ form.username }}
+      {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors }}</div>{% endif %}
+    </div>
+    <div class="mb-4 text-start">
+      <label class="form-label fw-semibold">Contraseña</label>
+      {{ form.password }}
+      {% if form.password.errors %}<div class="text-danger small">{{ form.password.errors }}</div>{% endif %}
+    </div>
+    <button type="submit" class="btn btn-nexergy w-100">Ingresar</button>
+  </form>
+
+  <hr class="my-4">
+  <p class="text-muted" style="font-size:.78rem;">Proyecto 7.° Semestre · Ingeniería de Sistemas · 2026</p>
+</div>
+</body>
+</html>
