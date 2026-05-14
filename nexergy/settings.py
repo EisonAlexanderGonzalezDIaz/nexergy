@@ -18,6 +18,7 @@ SECRET_KEY = config('SECRET_KEY', default='clave-insegura-solo-para-desarrollo')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://nexergy-production.up.railway.app']
 
 # ── Apps instaladas ───────────────────────────────────────
 INSTALLED_APPS = [
