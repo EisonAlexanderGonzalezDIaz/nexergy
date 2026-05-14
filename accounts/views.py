@@ -58,28 +58,36 @@ def registro_view(request):
             from entidades.models import Entidad, Municipio
             from .models import PerfilUsuario
 
-            # Buscar municipio
+            # Buscar municipio por nombre exacto
             municipio = Municipio.objects.filter(
-                nombre__icontains=municipio_nombre
+                nombre__iexact=municipio_nombre
             ).first()
 
-            # Buscar entidad por municipio y tipo
+            # Buscar entidad por municipio — cada municipio tiene una sola
             entidad = None
             if municipio:
                 entidad = Entidad.objects.filter(
                     municipio=municipio
                 ).first()
 
-            # Crear perfil con rol funcionario por defecto
+            # Crear perfil con rol funcionario
             PerfilUsuario.objects.create(
                 user=user,
                 rol='funcionario',
                 entidad=entidad
             )
 
-        except Exception:
-            # Si falla la asignación de entidad igual se crea el usuario
-            pass
+        except Exception as e:
+            # Crear perfil sin entidad si falla
+            try:
+                from .models import PerfilUsuario
+                PerfilUsuario.objects.create(
+                    user=user,
+                    rol='funcionario',
+                    entidad=None
+                )
+            except Exception:
+                pass
 
         messages.success(
             request,
