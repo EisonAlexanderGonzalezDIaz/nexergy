@@ -35,59 +35,38 @@ def registro_view(request):
         password         = request.POST.get('password')
         first_name       = request.POST.get('first_name')
         last_name        = request.POST.get('last_name')
-        tipo_entidad     = request.POST.get('tipo_entidad')
         municipio_nombre = request.POST.get('municipio')
 
-        # Verificar usuario duplicado
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Ese nombre de usuario ya existe.')
             return redirect('accounts:login')
 
-        # Crear usuario activo de una vez
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password,
             first_name=first_name,
             last_name=last_name,
-            is_active=True  # activo de inmediato
+            is_active=True
         )
 
-        # Crear perfil con entidad asignada automáticamente
-        try:
-            from entidades.models import Entidad, Municipio
-            from .models import PerfilUsuario
+        # Crear perfil automáticamente
+        from entidades.models import Entidad, Municipio
+        from .models import PerfilUsuario
 
-            # Buscar municipio por nombre exacto
-            municipio = Municipio.objects.filter(
-                nombre__iexact=municipio_nombre
-            ).first()
+        municipio = Municipio.objects.filter(
+            nombre__iexact=municipio_nombre
+        ).first()
 
-            # Buscar entidad por municipio — cada municipio tiene una sola
-            entidad = None
-            if municipio:
-                entidad = Entidad.objects.filter(
-                    municipio=municipio
-                ).first()
+        entidad = Entidad.objects.filter(
+            municipio=municipio
+        ).first() if municipio else None
 
-            # Crear perfil con rol funcionario
-            PerfilUsuario.objects.create(
-                user=user,
-                rol='funcionario',
-                entidad=entidad
-            )
-
-        except Exception as e:
-            # Crear perfil sin entidad si falla
-            try:
-                from .models import PerfilUsuario
-                PerfilUsuario.objects.create(
-                    user=user,
-                    rol='funcionario',
-                    entidad=None
-                )
-            except Exception:
-                pass
+        PerfilUsuario.objects.create(
+            usuario=user,      # ← campo correcto es 'usuario'
+            rol='FUNCIONARIO',
+            entidad=entidad
+        )
 
         messages.success(
             request,
