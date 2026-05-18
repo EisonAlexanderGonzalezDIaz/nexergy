@@ -37,10 +37,17 @@ def registro_view(request):
         last_name        = request.POST.get('last_name')
         municipio_nombre = request.POST.get('municipio')
 
+        # Validar usuario duplicado
         if User.objects.filter(username=username).exists():
-            messages.error(request, 'Ese nombre de usuario ya existe.')
+            messages.error(request, 'username_exists')
             return redirect('accounts:login')
 
+        # Validar correo duplicado
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'email_exists')
+            return redirect('accounts:login')
+
+        # Crear usuario
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -63,7 +70,7 @@ def registro_view(request):
         ).first() if municipio else None
 
         PerfilUsuario.objects.create(
-            usuario=user,      # ← campo correcto es 'usuario'
+            usuario=user,
             rol='FUNCIONARIO',
             entidad=entidad
         )
