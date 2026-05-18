@@ -25,8 +25,6 @@
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,.4);
     }
-
-    /* ── Panel izquierdo ── */
     .panel-left {
       flex: 1;
       background: #1A6B3C;
@@ -35,163 +33,65 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .panel-left h1 {
-      color: #fff;
-      font-size: 22px;
-      font-weight: 500;
-      margin: 0 0 10px;
-      line-height: 1.4;
-    }
-    .panel-left p {
-      color: rgba(255,255,255,.65);
-      font-size: 13px;
-      line-height: 1.7;
-      margin: 0 0 1.5rem;
-    }
-    .entidad-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .entidad-icon {
-      width: 28px; height: 28px;
-      background: rgba(255,255,255,.15);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .entidad-icon i { font-size: 15px; color: #fff; }
-    .entidad-item span { font-size: 13px; color: rgba(255,255,255,.8); }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 1.5rem;
-    }
-    .stat-box {
-      background: rgba(255,255,255,.1);
-      border-radius: 10px;
-      padding: 12px;
-    }
-    .stat-box .val { font-size: 18px; font-weight: 500; color: #fff; }
-    .stat-box .lbl { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 2px; }
-    .footer-txt { color: rgba(255,255,255,.3); font-size: 11px; margin: 1.2rem 0 0; }
-
-    /* ── Panel derecho ── */
+    .panel-left h1 { color:#fff; font-size:22px; font-weight:500; margin:0 0 10px; line-height:1.4; }
+    .panel-left > div > p { color:rgba(255,255,255,.65); font-size:13px; line-height:1.7; margin:0 0 1.5rem; }
+    .entidad-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+    .entidad-icon { width:28px; height:28px; background:rgba(255,255,255,.15); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .entidad-icon i { font-size:15px; color:#fff; }
+    .entidad-item span { font-size:13px; color:rgba(255,255,255,.8); }
+    .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:1.5rem; }
+    .stat-box { background:rgba(255,255,255,.1); border-radius:10px; padding:12px; }
+    .stat-box .val { font-size:18px; font-weight:500; color:#fff; }
+    .stat-box .lbl { font-size:11px; color:rgba(255,255,255,.6); margin-top:2px; }
+    .footer-txt { color:rgba(255,255,255,.3); font-size:11px; margin:1.2rem 0 0; }
     .panel-right {
       flex: 1;
       background: #fff;
-      padding: 3rem 2.5rem;
+      padding: 2.5rem 2.5rem 1.5rem;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
     }
+    .form-title { font-size:19px; font-weight:500; color:#0D3B22; margin:0 0 4px; }
+    .form-sub { font-size:13px; color:#999; margin:0 0 1.4rem; }
+    .field-label { display:block; font-size:12px; font-weight:500; color:#444; margin-bottom:5px; }
+    .field-label i { font-size:13px; vertical-align:-1px; margin-right:3px; }
+    .field-input { width:100%; padding:10px 12px; border:1.5px solid #EBEBEB; border-radius:8px; font-size:13px; outline:none; color:#333; transition:border-color .2s; }
+    .field-input:focus { border-color:#1A6B3C; }
+    .field-select { width:100%; padding:9px 12px; border:1.5px solid #EBEBEB; border-radius:8px; font-size:13px; outline:none; color:#555; background:#fff; transition:border-color .2s; }
+    .field-select:focus { border-color:#1A6B3C; }
+    .btn-nexergy { width:100%; padding:11px; background:#1A6B3C; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:background .2s; }
+    .btn-nexergy:hover { background:#0D3B22; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .link-verde { color:#1A6B3C; font-weight:500; text-decoration:none; font-size:12px; }
+    .link-verde:hover { text-decoration:underline; }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      background: #F5F5F5;
-      border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 1.8rem;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 9px;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-    }
-    .tab-btn.active { background: #1A6B3C; color: #fff; }
-    .tab-btn.inactive { background: transparent; color: #888; }
+    /* Barras de seguridad contraseña */
+    .pwd-bars { display:flex; gap:4px; margin-top:5px; }
+    .pwd-bar { flex:1; height:4px; border-radius:2px; background:#E5E5E5; transition:background .3s; }
+    .pwd-hint { font-size:11px; color:#999; margin-top:4px; }
+    .pwd-reqs { font-size:11px; margin-top:5px; display:none; }
+    .pwd-req { color:#bbb; margin-bottom:2px; }
+    .pwd-req.ok { color:#1A6B3C; }
 
-    /* Formularios */
-    .form-title { font-size: 19px; font-weight: 500; color: #0D3B22; margin: 0 0 4px; }
-    .form-sub { font-size: 13px; color: #999; margin: 0 0 1.4rem; }
-    .field-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: #444;
-      margin-bottom: 5px;
-    }
-    .field-label i { font-size: 13px; vertical-align: -1px; margin-right: 3px; }
-    .field-input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1.5px solid #EBEBEB;
-      border-radius: 8px;
-      font-size: 13px;
-      outline: none;
-      color: #333;
-      transition: border-color .2s;
-    }
-    .field-input:focus { border-color: #1A6B3C; }
-    .field-select {
-      width: 100%;
-      padding: 9px 12px;
-      border: 1.5px solid #EBEBEB;
-      border-radius: 8px;
-      font-size: 13px;
-      outline: none;
-      color: #555;
-      background: #fff;
-      transition: border-color .2s;
-    }
-    .field-select:focus { border-color: #1A6B3C; }
-    .btn-nexergy {
-      width: 100%;
-      padding: 11px;
-      background: #1A6B3C;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: background .2s;
-    }
-    .btn-nexergy:hover { background: #0D3B22; }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .register-note {
-      font-size: 11px;
-      color: #bbb;
-      text-align: center;
-      margin: 10px 0 0;
-    }
+    /* Captcha */
+    .captcha-box { background:#F8F9FA; border:1.5px solid #E0E0E0; border-radius:8px; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .captcha-logo { width:30px; height:30px; background:#4285F4; border-radius:4px; display:flex; align-items:center; justify-content:center; }
+    .captcha-logo i { font-size:17px; color:#fff; }
 
-    /* Badges seguridad */
-    .security-badges {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid #F5F5F5;
-    }
-    .badge-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      color: #bbb;
-    }
-    .badge-item i { font-size: 13px; color: #1A6B3C; }
+    /* Tabs abajo */
+    .tabs-bottom { margin-top:16px; padding-top:14px; border-top:1px solid #F0F0F0; }
+    .tabs { display:flex; background:#F5F5F5; border-radius:10px; padding:4px; margin-bottom:12px; }
+    .tab-btn { flex:1; padding:9px; border:none; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer; transition:all .2s; }
+    .tab-btn.active { background:#1A6B3C; color:#fff; }
+    .tab-btn.inactive { background:transparent; color:#888; }
+    .security-badges { display:flex; justify-content:center; gap:14px; }
+    .badge-item { display:flex; align-items:center; gap:4px; font-size:11px; color:#bbb; }
+    .badge-item i { font-size:13px; color:#1A6B3C; }
 
-    /* Responsive */
-    @media (max-width: 640px) {
-      .login-wrapper { flex-direction: column; }
-      .panel-left { padding: 2rem 1.5rem; }
-      .panel-right { padding: 2rem 1.5rem; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
+    @media (max-width:640px) {
+      .login-wrapper { flex-direction:column; }
+      .panel-left, .panel-right { padding:2rem 1.5rem; }
     }
   </style>
 </head>
@@ -199,18 +99,15 @@
 
 <div class="login-wrapper">
 
-  <!-- ── Panel izquierdo ── -->
+  <!-- Panel izquierdo -->
   <div class="panel-left">
     <div>
-      <!-- Logo -->
       {% load static %}
       <div style="background:#fff; border-radius:12px; padding:12px 16px; display:inline-flex; align-items:center; margin-bottom:2rem;">
         <img src="{% static 'img/logo_nexergy_sidebar.png' %}" alt="NEXERGY" style="height:48px;">
       </div>
-
       <h1>Medición y reducción<br>de huella de carbono</h1>
       <p>Plataforma para alcaldías, secretarías, empresas públicas y organizaciones privadas de la región Sabana Centro, Cundinamarca.</p>
-
       <div class="entidad-item">
         <div class="entidad-icon"><i class="bi bi-bank"></i></div>
         <span>Entes gubernamentales y alcaldías</span>
@@ -224,7 +121,6 @@
         <span>ONGs y organizaciones sin ánimo de lucro</span>
       </div>
     </div>
-
     <div>
       <div class="stats-grid">
         <div class="stat-box"><div class="val">11</div><div class="lbl">Municipios</div></div>
@@ -236,163 +132,293 @@
     </div>
   </div>
 
-  <!-- ── Panel derecho ── -->
+  <!-- Panel derecho -->
   <div class="panel-right">
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" id="tab-login" onclick="showTab('login')">
-        <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
-      </button>
-      <button class="tab-btn inactive" id="tab-registro" onclick="showTab('registro')">
-        <i class="bi bi-person-plus"></i> Registrarse
-      </button>
-    </div>
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
 
-    <!-- Mensajes Django -->
-    {% for msg in messages %}
-    <div class="alert alert-danger py-2 mb-3">{{ msg }}</div>
-    {% endfor %}
+      <!-- Mensajes Django -->
+      {% for msg in messages %}
+      <div class="alert alert-danger py-2 mb-3">{{ msg }}</div>
+      {% endfor %}
 
-    <!-- ── Formulario Login ── -->
-    <div id="form-login">
-      <p class="form-title">Bienvenido</p>
-      <p class="form-sub">Ingresa tus credenciales para continuar</p>
-
-      <form method="post" action="{% url 'accounts:login' %}">
-        {% csrf_token %}
-        <div class="mb-3">
-          <label class="field-label">
-            <i class="bi bi-person"></i> Usuario
-          </label>
-          {{ form.username }}
-          {% if form.username.errors %}
-          <div class="text-danger small mt-1">{{ form.username.errors }}</div>
-          {% endif %}
-        </div>
-        <div class="mb-4">
-          <label class="field-label">
-            <i class="bi bi-lock"></i> Contraseña
-          </label>
-          {{ form.password }}
-          {% if form.password.errors %}
-          <div class="text-danger small mt-1">{{ form.password.errors }}</div>
-          {% endif %}
-        </div>
-        <button type="submit" class="btn-nexergy">
-          <i class="bi bi-box-arrow-in-right"></i>
-          Ingresar al sistema
-        </button>
-      </form>
-    </div>
-
-    <!-- ── Formulario Registro ── -->
-    <div id="form-registro" style="display:none;">
-      <p class="form-title">Crear cuenta</p>
-      <p class="form-sub">Regístrate para acceder a NEXERGY</p>
-
-      <form method="post" action="{% url 'accounts:registro' %}">
-        {% csrf_token %}
-        <div class="two-col mb-3">
-          <div>
-            <label class="field-label">Nombre</label>
-            <input type="text" name="first_name" placeholder="Nombre" class="field-input" required>
+      <!-- LOGIN -->
+      <div id="form-login">
+        <p class="form-title">Bienvenido</p>
+        <p class="form-sub">Ingresa tus credenciales para continuar</p>
+        <form method="post" action="{% url 'accounts:login' %}">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-person"></i> Usuario</label>
+            {{ form.username }}
+            {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors }}</div>{% endif %}
           </div>
-          <div>
-            <label class="field-label">Apellido</label>
-            <input type="text" name="last_name" placeholder="Apellido" class="field-input" required>
+          <div class="mb-2">
+            <label class="field-label"><i class="bi bi-lock"></i> Contraseña</label>
+            {{ form.password }}
+            {% if form.password.errors %}<div class="text-danger small mt-1">{{ form.password.errors }}</div>{% endif %}
           </div>
-        </div>
+          <div class="text-end mb-3">
+            <a href="#" class="link-verde" onclick="showTab('recuperar'); return false;">¿Olvidó su contraseña?</a>
+          </div>
+          <button type="submit" class="btn-nexergy mb-3">
+            <i class="bi bi-box-arrow-in-right"></i> Ingresar al sistema
+          </button>
+          <p style="font-size:12px; color:#999; text-align:center; margin:0;">
+            ¿No tienes una cuenta?
+            <a href="#" class="link-verde" onclick="showTab('registro'); return false;">Regístrate ahora</a>
+          </p>
+        </form>
+      </div>
 
-        <div class="mb-3">
-          <label class="field-label">
-            <i class="bi bi-building"></i> Tipo de entidad
-          </label>
-          <select name="tipo_entidad" class="field-select" required>
-            <option value="">Selecciona el tipo...</option>
-            <option value="ALCALDIA">Ente gubernamental / Alcaldía</option>
-            <option value="SECRETARIA">Secretaría municipal</option>
-            <option value="EMPRESA_PUBLICA">Empresa pública</option>
-            <option value="EMPRESA_PRIVADA">Empresa privada</option>
-            <option value="INDUSTRIA">Empresa industrial</option>
-            <option value="ONG">ONG / Fundación</option>
-            <option value="EDUCATIVA">Institución educativa</option>
-            <option value="OTRO">Otro</option>
-          </select>
+      <!-- RECUPERAR CONTRASEÑA -->
+      <div id="form-recuperar" style="display:none;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <a href="#" class="link-verde" onclick="showTab('login'); return false;" style="font-size:18px;"><i class="bi bi-arrow-left"></i></a>
+          <p class="form-title" style="margin:0;">Recuperar contraseña</p>
         </div>
+        <p class="form-sub" style="padding-left:26px;">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+        <form onsubmit="sendRecovery(event)">
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-envelope"></i> Correo electrónico registrado</label>
+            <input type="email" id="rec-email" placeholder="correo@entidad.com" class="field-input" required>
+          </div>
+          <div id="rec-ok" style="display:none;" class="alert py-2 mb-3" style="background:#E8F5E9; border:1px solid #5DCAA5; border-radius:8px;">
+            <i class="bi bi-check-circle" style="color:#0F6E56;"></i>
+            <span style="font-size:12px; color:#0F6E56;"> Si ese correo está registrado, recibirás un enlace en los próximos minutos.</span>
+          </div>
+          <button type="submit" class="btn-nexergy mb-3">
+            <i class="bi bi-send"></i> Enviar enlace de recuperación
+          </button>
+          <p style="font-size:12px; color:#999; text-align:center; margin:0;">
+            <a href="#" class="link-verde" onclick="showTab('login'); return false;">Volver al inicio de sesión</a>
+          </p>
+        </form>
+      </div>
 
-        <div class="mb-3">
-          <label class="field-label">
-            <i class="bi bi-geo-alt"></i> Municipio
-          </label>
-          <select name="municipio" class="field-select" required>
-            <option value="">Selecciona municipio...</option>
-            <optgroup label="Sabana Centro">
-              <option>Cajicá</option><option>Chía</option><option>Cogua</option>
-              <option>Cota</option><option>Gachancipá</option><option>Nemocón</option>
-              <option>Sopó</option><option>Tabio</option><option>Tenjo</option>
-              <option>Tocancipá</option><option>Zipaquirá</option>
-            </optgroup>
-            <optgroup label="Otro">
-              <option>Otro municipio de Cundinamarca</option>
-              <option>Fuera de Cundinamarca</option>
-            </optgroup>
-          </select>
-        </div>
+      <!-- REGISTRO -->
+      <div id="form-registro" style="display:none;">
+        <p class="form-title">Crear cuenta</p>
+        <p class="form-sub">Completa el formulario para registrarte</p>
+        <form method="post" action="{% url 'accounts:registro' %}" onsubmit="return validarRegistro()">
+          {% csrf_token %}
+          <div class="two-col mb-3">
+            <div>
+              <label class="field-label">Nombre</label>
+              <input type="text" name="first_name" placeholder="Nombre" class="field-input" required>
+            </div>
+            <div>
+              <label class="field-label">Apellido</label>
+              <input type="text" name="last_name" placeholder="Apellido" class="field-input" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-building"></i> Tipo de entidad</label>
+            <select name="tipo_entidad" class="field-select" required>
+              <option value="">Selecciona el tipo...</option>
+              <option value="ALCALDIA">Ente gubernamental / Alcaldía</option>
+              <option value="SECRETARIA">Secretaría municipal</option>
+              <option value="EMPRESA_PUBLICA">Empresa pública</option>
+              <option value="EMPRESA_PRIVADA">Empresa privada</option>
+              <option value="INDUSTRIA">Empresa industrial</option>
+              <option value="ONG">ONG / Fundación</option>
+              <option value="EDUCATIVA">Institución educativa</option>
+              <option value="OTRO">Otro</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-geo-alt"></i> Municipio</label>
+            <select name="municipio" class="field-select" required>
+              <option value="">Selecciona municipio...</option>
+              <optgroup label="Sabana Centro">
+                <option>Cajicá</option><option>Chía</option><option>Cogua</option>
+                <option>Cota</option><option>Gachancipá</option><option>Nemocón</option>
+                <option>Sopó</option><option>Tabio</option><option>Tenjo</option>
+                <option>Tocancipá</option><option>Zipaquirá</option>
+              </optgroup>
+              <optgroup label="Otro">
+                <option>Otro municipio de Cundinamarca</option>
+                <option>Fuera de Cundinamarca</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-person"></i> Usuario</label>
+            <input type="text" name="username" placeholder="Elige un nombre de usuario" class="field-input" required>
+          </div>
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-envelope"></i> Correo electrónico</label>
+            <input type="email" name="email" id="email-input" placeholder="correo@entidad.com" class="field-input" oninput="checkEmail(this)" required>
+            <div id="email-msg" style="font-size:11px; margin-top:3px; display:none;"></div>
+          </div>
+          <div class="mb-2">
+            <label class="field-label"><i class="bi bi-lock"></i> Contraseña</label>
+            <input type="password" name="password" id="pwd-input" placeholder="Mínimo 8 caracteres" class="field-input" oninput="checkPwd(this.value)" required>
+            <div class="pwd-bars">
+              <div class="pwd-bar" id="b1"></div>
+              <div class="pwd-bar" id="b2"></div>
+              <div class="pwd-bar" id="b3"></div>
+              <div class="pwd-bar" id="b4"></div>
+            </div>
+            <div class="pwd-hint" id="pwd-msg">Usa letras, números y caracteres especiales (+, @, #...)</div>
+            <div class="pwd-reqs" id="pwd-reqs">
+              <div class="pwd-req" id="req-len"><i class="bi bi-x-circle"></i> Mínimo 8 caracteres</div>
+              <div class="pwd-req" id="req-num"><i class="bi bi-x-circle"></i> Al menos un número</div>
+              <div class="pwd-req" id="req-spe"><i class="bi bi-x-circle"></i> Al menos un carácter especial (+, @, #, !)</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="field-label"><i class="bi bi-lock-fill"></i> Confirmar contraseña</label>
+            <input type="password" id="pwd2-input" placeholder="Repite tu contraseña" class="field-input" oninput="checkPwd2(this.value)" required>
+            <div id="pwd2-msg" style="font-size:11px; margin-top:3px; display:none;"></div>
+          </div>
 
-        <div class="mb-3">
-          <label class="field-label">
-            <i class="bi bi-person"></i> Usuario
-          </label>
-          <input type="text" name="username" placeholder="Elige un nombre de usuario" class="field-input" required>
-        </div>
+          <!-- CAPTCHA simulado -->
+          <div class="captcha-box mb-2">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <input type="checkbox" id="captcha-check" onchange="checkCaptcha()" style="width:18px; height:18px; cursor:pointer;">
+              <span style="font-size:13px; color:#444;">No soy un robot</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+              <div class="captcha-logo"><i class="bi bi-shield-check"></i></div>
+              <span style="font-size:9px; color:#999;">reCAPTCHA</span>
+            </div>
+          </div>
+          <div id="captcha-msg" style="font-size:11px; color:#dc3545; margin-bottom:8px; display:none;">
+            <i class="bi bi-exclamation-circle"></i> Por favor confirma que no eres un robot.
+          </div>
 
-        <div class="mb-3">
-          <label class="field-label">
-            <i class="bi bi-envelope"></i> Correo electrónico
-          </label>
-          <input type="email" name="email" placeholder="correo@entidad.com" class="field-input" required>
-        </div>
+          <button type="submit" class="btn-nexergy mb-3">
+            <i class="bi bi-person-plus"></i> Crear cuenta
+          </button>
+          <p style="font-size:12px; color:#999; text-align:center; margin:0;">
+            ¿Ya tienes cuenta?
+            <a href="#" class="link-verde" onclick="showTab('login'); return false;">Inicia sesión aquí</a>
+          </p>
+        </form>
+      </div>
+    </div>
 
-        <div class="mb-4">
-          <label class="field-label">
-            <i class="bi bi-lock"></i> Contraseña
-          </label>
-          <input type="password" name="password" placeholder="Mínimo 8 caracteres" class="field-input" required>
-        </div>
-
-        <button type="submit" class="btn-nexergy">
-          <i class="bi bi-person-plus"></i>
-          Crear cuenta
+    <!-- Tabs ABAJO + badges -->
+    <div class="tabs-bottom">
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-login" onclick="showTab('login')">
+          <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
         </button>
-
-        <p class="register-note">
-          <i class="bi bi-info-circle"></i>
-          Tu cuenta será activada por el administrador antes de poder ingresar.
-        </p>
-      </form>
+        <button class="tab-btn inactive" id="tab-registro" onclick="showTab('registro')">
+          <i class="bi bi-person-plus"></i> Registrarse
+        </button>
+      </div>
+      <div class="security-badges">
+        <div class="badge-item"><i class="bi bi-shield-check"></i> CSRF</div>
+        <div class="badge-item"><i class="bi bi-lock"></i> HTTPS</div>
+        <div class="badge-item"><i class="bi bi-database-lock"></i> Cifrado</div>
+        <div class="badge-item"><i class="bi bi-patch-check"></i> Ley 1581</div>
+      </div>
     </div>
-
-    <!-- Badges seguridad -->
-    <div class="security-badges">
-      <div class="badge-item"><i class="bi bi-shield-check"></i> CSRF</div>
-      <div class="badge-item"><i class="bi bi-lock"></i> HTTPS</div>
-      <div class="badge-item"><i class="bi bi-database-lock"></i> Cifrado</div>
-      <div class="badge-item"><i class="bi bi-patch-check"></i> Ley 1581</div>
-    </div>
-
   </div>
 </div>
 
 <script>
 function showTab(tab) {
-  const isLogin = tab === 'login';
-  document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
-  document.getElementById('form-registro').style.display = isLogin ? 'none' : 'block';
-  document.getElementById('tab-login').className = 'tab-btn ' + (isLogin ? 'active' : 'inactive');
-  document.getElementById('tab-registro').className = 'tab-btn ' + (isLogin ? 'inactive' : 'active');
+  ['login','recuperar','registro'].forEach(t => {
+    document.getElementById('form-'+t).style.display = 'none';
+  });
+  document.getElementById('form-'+tab).style.display = 'block';
+  const tl = document.getElementById('tab-login');
+  const tr = document.getElementById('tab-registro');
+  const isLogin = tab === 'login' || tab === 'recuperar';
+  tl.className = 'tab-btn ' + (isLogin ? 'active' : 'inactive');
+  tr.className = 'tab-btn ' + (tab === 'registro' ? 'active' : 'inactive');
+}
+
+function checkEmail(input) {
+  const msg = document.getElementById('email-msg');
+  const email = input.value.trim();
+  if (!email) { msg.style.display = 'none'; return; }
+  msg.style.display = 'block';
+  if (!email.includes('@') || !email.includes('.')) {
+    msg.innerHTML = '<i class="bi bi-exclamation-circle"></i> Ingresa un correo válido.';
+    msg.style.color = '#BA7517';
+    input.style.borderColor = '#FAC775';
+  } else {
+    msg.innerHTML = '<i class="bi bi-check-circle"></i> Correo válido.';
+    msg.style.color = '#1A6B3C';
+    input.style.borderColor = '#5DCAA5';
+  }
+}
+
+function checkPwd(val) {
+  const bars = ['b1','b2','b3','b4'].map(id => document.getElementById(id));
+  const msg = document.getElementById('pwd-msg');
+  const reqs = document.getElementById('pwd-reqs');
+  reqs.style.display = val.length > 0 ? 'block' : 'none';
+
+  const hasLen = val.length >= 8;
+  const hasNum = /\d/.test(val);
+  const hasSpe = /[+@#!$%^&*()_\-=\[\]{};':"\\|,.<>\/?]/.test(val);
+  const hasUpp = /[A-Z]/.test(val);
+
+  const upd = (id, ok, txt) => {
+    const el = document.getElementById(id);
+    el.innerHTML = (ok
+      ? '<i class="bi bi-check-circle-fill"></i> '
+      : '<i class="bi bi-x-circle"></i> ') + txt;
+    el.className = 'pwd-req' + (ok ? ' ok' : '');
+  };
+  upd('req-len', hasLen, 'Mínimo 8 caracteres');
+  upd('req-num', hasNum, 'Al menos un número');
+  upd('req-spe', hasSpe, 'Al menos un carácter especial (+, @, #, !)');
+
+  let score = [hasLen, hasNum, hasSpe, hasUpp].filter(Boolean).length;
+  const colors = ['#E5E5E5','#E24B4A','#EF9F27','#EF9F27','#1A6B3C'];
+  const labels = ['Usa letras, números y caracteres especiales','Contraseña débil','Seguridad media','Seguridad media — casi lista','Contraseña segura'];
+  bars.forEach((bar, i) => { bar.style.background = i < score ? colors[score] : '#E5E5E5'; });
+  msg.textContent = val.length > 0 ? labels[score] : labels[0];
+  msg.style.color = score <= 1 ? '#dc3545' : score <= 3 ? '#854F0B' : '#1A6B3C';
+}
+
+function checkPwd2(val) {
+  const pwd1 = document.getElementById('pwd-input').value;
+  const msg = document.getElementById('pwd2-msg');
+  if (!val) { msg.style.display = 'none'; return; }
+  msg.style.display = 'block';
+  if (val === pwd1) {
+    msg.innerHTML = '<i class="bi bi-check-circle-fill"></i> Las contraseñas coinciden.';
+    msg.style.color = '#1A6B3C';
+  } else {
+    msg.innerHTML = '<i class="bi bi-x-circle"></i> Las contraseñas no coinciden.';
+    msg.style.color = '#dc3545';
+  }
+}
+
+let captchaOk = false;
+function checkCaptcha() {
+  captchaOk = document.getElementById('captcha-check').checked;
+  if (captchaOk) document.getElementById('captcha-msg').style.display = 'none';
+}
+
+function validarRegistro() {
+  if (!captchaOk) {
+    document.getElementById('captcha-msg').style.display = 'block';
+    return false;
+  }
+  const pwd1 = document.getElementById('pwd-input').value;
+  const pwd2 = document.getElementById('pwd2-input').value;
+  if (pwd1 !== pwd2) {
+    document.getElementById('pwd2-msg').style.display = 'block';
+    document.getElementById('pwd2-msg').innerHTML = '<i class="bi bi-x-circle"></i> Las contraseñas no coinciden.';
+    document.getElementById('pwd2-msg').style.color = '#dc3545';
+    return false;
+  }
+  return true;
+}
+
+function sendRecovery(e) {
+  e.preventDefault();
+  document.getElementById('rec-ok').style.display = 'block';
 }
 </script>
-
 </body>
 </html>
