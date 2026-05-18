@@ -257,11 +257,13 @@
           </div>
           <div class="mb-3">
             <label class="field-label"><i class="bi bi-person"></i> Usuario</label>
-            <input type="text" name="username" placeholder="Elige un nombre de usuario" class="field-input" required>
+            <input type="text" name="username" id="reg-username" placeholder="Elige un nombre de usuario" class="field-input" oninput="checkUsername(this.value)" required>
+            <div id="username-msg" style="font-size:11px; margin-top:3px; display:none;"></div>
           </div>
           <div class="mb-3">
             <label class="field-label"><i class="bi bi-envelope"></i> Correo electrónico</label>
-            <input type="email" name="email" id="email-input" placeholder="correo@entidad.com" class="field-input" oninput="checkEmail(this)" required>
+            <input type="email" name="email" id="email-input" placeholder="correo@entidad.com" class="field-input" oninput="checkEmailReal(this)" required>
+            <div id="email-msg" style="font-size:11px; margin-top:3px; display:none;"></div>
             <div id="email-msg" style="font-size:11px; margin-top:3px; display:none;"></div>
           </div>
           <div class="mb-2">
@@ -415,6 +417,54 @@ function sendRecovery(e) {
   e.preventDefault();
   document.getElementById('rec-ok').style.display = 'block';
 }
+
+let usernameTimer, emailTimer;
+
+function checkUsername(val) {
+  const msg = document.getElementById('username-msg');
+  if (!val || val.length < 3) { msg.style.display = 'none'; return; }
+  clearTimeout(usernameTimer);
+  usernameTimer = setTimeout(() => {
+    fetch(`/accounts/check-username/?username=${encodeURIComponent(val)}`)
+      .then(r => r.json())
+      .then(data => {
+        msg.style.display = 'block';
+        if (data.exists) {
+          msg.innerHTML = '<i class="bi bi-x-circle"></i> Ese usuario ya está registrado.';
+          msg.style.color = '#dc3545';
+          document.getElementById('reg-username').style.borderColor = '#F09595';
+        } else {
+          msg.innerHTML = '<i class="bi bi-check-circle"></i> Usuario disponible.';
+          msg.style.color = '#1A6B3C';
+          document.getElementById('reg-username').style.borderColor = '#5DCAA5';
+        }
+      });
+  }, 500);
+}
+
+function checkEmailReal(input) {
+  const val = input.value.trim();
+  const msg = document.getElementById('email-msg');
+  if (!val || !val.includes('@')) { msg.style.display = 'none'; return; }
+  clearTimeout(emailTimer);
+  emailTimer = setTimeout(() => {
+    fetch(`/accounts/check-email/?email=${encodeURIComponent(val)}`)
+      .then(r => r.json())
+      .then(data => {
+        msg.style.display = 'block';
+        if (data.exists) {
+          msg.innerHTML = '<i class="bi bi-x-circle"></i> Ese correo ya está registrado.';
+          msg.style.color = '#dc3545';
+          input.style.borderColor = '#F09595';
+        } else {
+          msg.innerHTML = '<i class="bi bi-check-circle"></i> Correo disponible.';
+          msg.style.color = '#1A6B3C';
+          input.style.borderColor = '#5DCAA5';
+        }
+      });
+  }, 500);
+}
 </script>
 </body>
 </html>
+
