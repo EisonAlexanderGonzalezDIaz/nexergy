@@ -140,7 +140,19 @@
 
       <!-- Mensajes Django -->
       {% for msg in messages %}
+      {% if msg == 'username_exists' %}
+      <div class="alert alert-danger py-2 mb-3">
+      <i class="bi bi-exclamation-circle"></i> Ese nombre de usuario ya está en uso. Elige otro.
+      </div>
+      <script>showTab('registro');</script>
+      {% elif msg == 'email_exists' %}
+      <div class="alert alert-danger py-2 mb-3">
+      <i class="bi bi-exclamation-circle"></i> Ese correo ya está registrado.
+      </div>
+      <script>showTab('registro');</script>
+      {% else %}
       <div class="alert alert-danger py-2 mb-3">{{ msg }}</div>
+      {% endif %}
       {% endfor %}
 
       <!-- LOGIN -->
