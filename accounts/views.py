@@ -82,3 +82,15 @@ def registro_view(request):
         return redirect('accounts:login')
 
     return redirect('accounts:login')
+
+from django.http import JsonResponse
+
+def check_username(request):
+    username = request.GET.get('username', '')
+    exists = User.objects.filter(username=username).exists()
+    return JsonResponse({'exists': exists})
+
+def check_email(request):
+    email = request.GET.get('email', '')
+    exists = User.objects.filter(email=email).exists()
+    return JsonResponse({'exists': exists})
