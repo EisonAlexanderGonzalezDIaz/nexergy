@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NEXERGY — {% block titulo %}Panel{% endblock %}</title>
-  <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     :root {
@@ -14,177 +12,250 @@
       --verde-claro: #E8F5E9;
       --verde-oscuro:#0D3B22;
     }
-    body { background: #f4f6f8; font-family: 'Segoe UI', sans-serif; }
+    body { background: #F0F4F1; font-family: 'Segoe UI', sans-serif; }
 
-    /* Sidebar */
+    /* ── Sidebar ── */
     .sidebar {
       min-height: 100vh;
       width: 240px;
       background: var(--verde-oscuro);
       position: fixed;
       top: 0; left: 0;
-      padding-top: 1rem;
       z-index: 100;
+      display: flex;
+      flex-direction: column;
     }
-    .sidebar .brand {
-      color: #fff;
-      font-size: 1.6rem;
-      font-weight: 700;
-      padding: 1rem 1.5rem 0.5rem;
-      letter-spacing: 2px;
-    }
-    .sidebar .brand span { color: #81C784; }
+    .sidebar-top { padding: 1.2rem 1rem 0.5rem; }
     .sidebar .nav-link {
-      color: #B2DFDB;
-      padding: .55rem 1.5rem;
-      border-radius: 0 30px 30px 0;
-      margin-right: .75rem;
+      color: rgba(255,255,255,.65);
+      padding: .55rem 1.2rem;
+      border-radius: 8px;
+      margin: 2px .75rem;
       transition: all .2s;
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .sidebar .nav-link:hover,
     .sidebar .nav-link.active {
       background: var(--verde);
       color: #fff;
     }
-    .sidebar .nav-link i { margin-right: .5rem; }
-
-    /* Main content */
-    .main-content {
-      margin-left: 240px;
-      padding: 2rem;
+    .sidebar .nav-link i { font-size: 1rem; }
+    .sidebar-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,.3);
+      padding: .8rem 1.5rem .2rem;
+      text-transform: uppercase;
     }
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 1rem 1.2rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .user-avatar {
+      width: 36px; height: 36px;
+      background: var(--verde);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .user-name { font-size: 13px; font-weight: 500; color: #fff; line-height: 1.2; }
+    .user-role { font-size: 11px; color: rgba(255,255,255,.45); }
+
+    /* ── Main ── */
+    .main-content { margin-left: 240px; padding: 1.5rem 2rem; }
     .topbar {
       background: #fff;
       border-radius: 12px;
-      padding: .75rem 1.5rem;
+      padding: .9rem 1.5rem;
       margin-bottom: 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      box-shadow: 0 1px 6px rgba(0,0,0,.06);
     }
-    .topbar .page-title { font-weight: 600; color: var(--verde-oscuro); font-size: 1.2rem; }
+    .topbar .page-title { font-weight: 600; color: var(--verde-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .topbar-entidad { font-size: 13px; color: #888; display: flex; align-items: center; gap: 5px; }
+    .topbar-entidad i { color: var(--verde); }
 
-    /* Cards KPI */
+    /* ── KPI Cards ── */
     .kpi-card {
       background: #fff;
       border-radius: 14px;
       padding: 1.4rem 1.6rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,.07);
-      border-left: 5px solid var(--verde);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border-top: 4px solid var(--verde);
+      transition: transform .2s;
     }
-    .kpi-card .kpi-value { font-size: 2rem; font-weight: 700; color: var(--verde-oscuro); }
-    .kpi-card .kpi-label { color: #666; font-size: .85rem; margin-top: .2rem; }
-    .kpi-card.alcance-2 { border-left-color: #1565C0; }
+    .kpi-card:hover { transform: translateY(-2px); }
+    .kpi-card .kpi-value { font-size: 2rem; font-weight: 700; color: var(--verde-oscuro); line-height: 1; }
+    .kpi-card .kpi-label { color: #777; font-size: .82rem; margin-top: .4rem; display: flex; align-items: center; gap: 4px; }
+    .kpi-card .kpi-unit { font-size: .75rem; color: #aaa; margin-top: 2px; }
+    .kpi-card.total-card { background: var(--verde-oscuro); border-top-color: #5DCAA5; }
+    .kpi-card.total-card .kpi-value { color: #5DCAA5; font-size: 2.2rem; }
+    .kpi-card.total-card .kpi-label { color: rgba(255,255,255,.7); }
+    .kpi-card.total-card .kpi-unit { color: rgba(255,255,255,.4); }
+    .kpi-card.alcance-1 { border-top-color: var(--verde); }
+    .kpi-card.alcance-1 .kpi-value { color: var(--verde); }
+    .kpi-card.alcance-2 { border-top-color: #1565C0; }
     .kpi-card.alcance-2 .kpi-value { color: #1565C0; }
-    .kpi-card.alcance-3 { border-left-color: #E65100; }
+    .kpi-card.alcance-3 { border-top-color: #E65100; }
     .kpi-card.alcance-3 .kpi-value { color: #E65100; }
-    .kpi-card.total-card { border-left-color: var(--verde-oscuro); background: var(--verde-oscuro); }
-    .kpi-card.total-card .kpi-value,
-    .kpi-card.total-card .kpi-label { color: #fff; }
 
-    /* Chart containers */
+    /* ── Chart Cards ── */
     .chart-card {
       background: #fff;
       border-radius: 14px;
       padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      height: 100%;
     }
-    .chart-card h6 { color: var(--verde-oscuro); font-weight: 600; margin-bottom: 1rem; }
+    .chart-card h6 {
+      color: var(--verde-oscuro);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding-bottom: .75rem;
+      border-bottom: 1px solid #F0F4F1;
+    }
+    .chart-card h6 i { color: var(--verde); }
 
-    /* Badges de viabilidad */
-    .badge-alta   { background: #E8F5E9; color: var(--verde); }
-    .badge-media  { background: #FFF8E1; color: #F57F17; }
-    .badge-baja   { background: #FFEBEE; color: #C62828; }
-
-    /* Tabla */
-    .table-nexergy thead th { background: var(--verde); color: #fff; border: none; }
+    /* ── Tabla ── */
+    .table-nexergy thead th { background: var(--verde-oscuro); color: #fff; border: none; font-size: .85rem; }
     .table-nexergy tbody tr:hover { background: var(--verde-claro); }
+    .table-nexergy td, .table-nexergy th { vertical-align: middle; }
+
+    /* ── Badges ── */
+    .badge-alta   { background: #E8F5E9; color: var(--verde); padding: 4px 10px; border-radius: 20px; font-size: .8rem; }
+    .badge-media  { background: #FFF8E1; color: #F57F17; padding: 4px 10px; border-radius: 20px; font-size: .8rem; }
+    .badge-baja   { background: #FFEBEE; color: #C62828; padding: 4px 10px; border-radius: 20px; font-size: .8rem; }
+
+    /* ── Alert sin datos ── */
+    .alert-nexergy {
+      background: #E8F5E9;
+      border: 1px solid #C8E6C9;
+      border-radius: 12px;
+      color: var(--verde-oscuro);
+      padding: 1.2rem 1.5rem;
+    }
   </style>
   {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-<!-- ── Sidebar ───────────────────────────────────── -->
+<!-- ── Sidebar ── -->
 <nav class="sidebar">
   {% load static %}
-  <div class="text-center px-2 pt-3 pb-1">
-    <img src="{% static 'img/logo_nexergy_sidebar.png' %}"
-         alt="NEXERGY"
-         style="width:160px; background:#fff; border-radius:10px; padding:6px 10px;">
-  </div>
-  <hr style="border-color:#2E7D32; margin: .5rem 1rem;">
+  <div class="sidebar-top">
+    <div class="text-center mb-3">
+      <img src="{% static 'img/logo_nexergy_sidebar.png' %}" alt="NEXERGY"
+           style="width:150px; background:#fff; border-radius:10px; padding:6px 10px;">
+    </div>
+    <hr style="border-color:rgba(255,255,255,.1); margin:.5rem 0;">
 
-  {% if user.is_authenticated %}
-  <ul class="nav flex-column mt-2">
-    <li class="nav-item">
-      <a href="{% url 'dashboard:index' %}" class="nav-link {% if request.resolver_match.app_name == 'dashboard' %}active{% endif %}">
-        <i class="bi bi-speedometer2"></i> Dashboard
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'consumos:lista' %}" class="nav-link {% if request.resolver_match.app_name == 'consumos' %}active{% endif %}">
-        <i class="bi bi-clipboard-data"></i> Mis consumos
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'consumos:nuevo' %}" class="nav-link">
-        <i class="bi bi-plus-circle"></i> Registrar consumo
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'recomendaciones:lista' %}" class="nav-link {% if request.resolver_match.app_name == 'recomendaciones' %}active{% endif %}">
-        <i class="bi bi-lightbulb"></i> Recomendaciones
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'reportes:pdf' %}" class="nav-link">
-        <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
-      </a>
-    </li>
-    {% if user.perfil.es_admin %}
-    <li class="nav-item mt-2">
-      <small style="color:#666; padding: .4rem 1.5rem; display:block;">ADMINISTRACIÓN</small>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'entidades:lista' %}" class="nav-link {% if request.resolver_match.app_name == 'entidades' %}active{% endif %}">
-        <i class="bi bi-building"></i> Entidades
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="/admin/" class="nav-link">
-        <i class="bi bi-gear"></i> Panel Admin
-      </a>
-    </li>
-    {% endif %}
-  </ul>
-  {% endif %}
-
-  <div style="position:absolute; bottom:1.5rem; left:0; right:0; padding: 0 1.5rem;">
     {% if user.is_authenticated %}
-    <small style="color:#aaa; display:block; margin-bottom:.4rem;">
-      <i class="bi bi-person-circle"></i> {{ user.get_full_name|default:user.username }}
-    </small>
-    <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline-secondary w-100" style="color:#aaa; border-color:#555;">
-      <i class="bi bi-box-arrow-left"></i> Salir
+    <ul class="nav flex-column mt-1">
+      <li class="nav-item">
+        <a href="{% url 'dashboard:index' %}" class="nav-link {% if request.resolver_match.app_name == 'dashboard' %}active{% endif %}">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'consumos:lista' %}" class="nav-link {% if request.resolver_match.app_name == 'consumos' %}active{% endif %}">
+          <i class="bi bi-clipboard-data"></i> Mis consumos
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'consumos:nuevo' %}" class="nav-link">
+          <i class="bi bi-plus-circle"></i> Registrar consumo
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'recomendaciones:lista' %}" class="nav-link {% if request.resolver_match.app_name == 'recomendaciones' %}active{% endif %}">
+          <i class="bi bi-lightbulb"></i> Recomendaciones
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'reportes:pdf' %}" class="nav-link">
+          <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+        </a>
+      </li>
+
+      {% if user.perfil.es_admin %}
+      <div class="sidebar-section-label">Administración</div>
+      <li class="nav-item">
+        <a href="{% url 'entidades:lista' %}" class="nav-link {% if request.resolver_match.app_name == 'entidades' %}active{% endif %}">
+          <i class="bi bi-building"></i> Entidades
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/" class="nav-link">
+          <i class="bi bi-gear"></i> Panel Admin
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <!-- Usuario en el fondo del sidebar -->
+  <div class="sidebar-bottom">
+    {% if user.is_authenticated %}
+    <div class="user-info">
+      <div class="user-avatar">
+        {{ user.get_full_name|default:user.username|first|upper }}
+      </div>
+      <div>
+        <div class="user-name">{{ user.get_full_name|default:user.username }}</div>
+        <div class="user-role">
+          {% if user.perfil.entidad %}
+            {{ user.perfil.entidad.municipio }}
+          {% else %}
+            NEXERGY
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <a href="{% url 'accounts:logout' %}" class="btn btn-sm w-100" style="background:rgba(255,255,255,.08); color:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.15); border-radius:8px; font-size:13px;">
+      <i class="bi bi-box-arrow-left"></i> Cerrar sesión
     </a>
     {% endif %}
   </div>
 </nav>
 
-<!-- ── Contenido principal ───────────────────────── -->
+<!-- ── Contenido principal ── -->
 <div class="main-content">
   <div class="topbar">
     <span class="page-title">{% block page_title %}NEXERGY{% endblock %}</span>
-    <span style="color:#888; font-size:.85rem;">
-      Sabana Centro &nbsp;|&nbsp;
+    <div class="topbar-right">
       {% if user.is_authenticated and user.perfil.entidad %}
-        <i class="bi bi-building"></i> {{ user.perfil.entidad.nombre }}
+      <span class="topbar-entidad">
+        <i class="bi bi-building"></i>
+        {{ user.perfil.entidad.nombre }}
+      </span>
       {% endif %}
-    </span>
+      <span style="color:#ddd;">|</span>
+      <span class="topbar-entidad">
+        <i class="bi bi-geo-alt"></i> Sabana Centro
+      </span>
+    </div>
   </div>
 
-  <!-- Mensajes flash de Django -->
   {% for msg in messages %}
   <div class="alert alert-{{ msg.tags|default:'info' }} alert-dismissible fade show" role="alert">
     {{ msg }}
@@ -195,9 +266,7 @@
   {% block content %}{% endblock %}
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 {% block extra_js %}{% endblock %}
 </body>
