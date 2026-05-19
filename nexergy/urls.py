@@ -12,7 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Redirige la raíz al dashboard
-    path('', RedirectView.as_view(url='/accounts/login/', permanent=False)),
+    path('', RedirectView.as_view(url='/dashboard/', permanent=False)),
 
     # URLs de cada app
     path('accounts/',       include('accounts.urls')),
