@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXERGY — Medición de Huella de Carbono | Sabana Centro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #fff; }
+    a { text-decoration: none; }
+
+    /* NAVBAR */
+    nav {
+      background: #0D3B22;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { background: #fff; border-radius: 8px; padding: 6px 12px; font-size: 16px; font-weight: 700; color: #1A6B3C; letter-spacing: 1px; }
+    .nav-logo span { color: #0D3B22; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { color: rgba(255,255,255,.8); font-size: 13px; }
+    .nav-links a:hover { color: #fff; }
+    .btn-ingresar { background: #1A6B3C; color: #fff !important; padding: 8px 20px; border-radius: 8px; font-weight: 500; border: 1px solid rgba(255,255,255,.2); }
+    .btn-ingresar:hover { background: #145530 !important; }
+
+    /* HERO */
+    .hero { background: #0D3B22; padding: 5rem 3rem 4rem; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; }
+    .hero-text { flex: 1; min-width: 280px; max-width: 520px; }
+    .badge-ods { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; padding: 5px 14px; margin-bottom: 1.5rem; }
+    .badge-ods i { font-size: 13px; color: #9FE1CB; }
+    .badge-ods span { font-size: 12px; color: #9FE1CB; }
+    .hero h1 { color: #fff; font-size: 36px; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .hero h1 em { color: #5DCAA5; font-style: normal; }
+    .hero p { color: rgba(255,255,255,.75); font-size: 15px; line-height: 1.8; margin-bottom: 2rem; }
+    .hero p strong { color: #fff; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary-hero { background: #1A6B3C; color: #fff; padding: 12px 24px; border-radius: 9px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.15); }
+    .btn-primary-hero:hover { background: #145530; color: #fff; }
+    .btn-secondary-hero { background: rgba(255,255,255,.1); color: #fff; padding: 12px 24px; border-radius: 9px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.25); }
+    .btn-secondary-hero:hover { background: rgba(255,255,255,.18); color: #fff; }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 320px; }
+    .stat-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-card .num { font-size: 28px; font-weight: 700; color: #5DCAA5; }
+    .stat-card .lbl { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 4px; }
+
+    /* SECCIONES */
+    section { padding: 4rem 3rem; }
+    .section-badge { display: inline-block; background: #E8F5E9; color: #1A6B3C; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; margin-bottom: 1rem; }
+    .section-title { font-size: 26px; font-weight: 700; color: #0D3B22; margin-bottom: 0.5rem; }
+    .section-sub { font-size: 14px; color: #666; line-height: 1.7; }
+    .text-center { text-align: center; }
+
+    /* CARDS */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 880px; margin: 2rem auto 0; }
+    .card-item { background: #F8FAF8; border: 1px solid #E0EDE0; border-radius: 12px; padding: 24px; }
+    .card-icon { width: 44px; height: 44px; background: #1A6B3C; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .card-icon i { font-size: 22px; color: #fff; }
+    .card-item h3 { font-size: 15px; font-weight: 600; color: #0D3B22; margin-bottom: 8px; }
+    .card-item p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* PASOS */
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 880px; margin: 2rem auto 0; }
+    .step-card { background: #fff; border: 1px solid #E0EDE0; border-radius: 12px; padding: 24px; }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 14px; font-weight: 700; color: #fff; }
+    .step-card h3 { font-size: 15px; font-weight: 600; color: #0D3B22; margin-bottom: 8px; }
+    .step-card p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* MUNICIPIOS */
+    .municipios-wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 700px; margin: 1.5rem auto 0; }
+    .muni-badge { background: #E8F5E9; color: #1A6B3C; font-size: 13px; padding: 7px 16px; border-radius: 20px; border: 1px solid #C0DD97; font-weight: 500; }
+
+    /* CTA */
+    .cta-section { background: #0D3B22; text-align: center; }
+    .cta-section h2 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+    .cta-section p { font-size: 14px; color: rgba(255,255,255,.7); margin-bottom: 2rem; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-cta-primary { background: #1A6B3C; color: #fff; padding: 13px 28px; border-radius: 9px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.2); }
+    .btn-cta-primary:hover { background: #145530; color: #fff; }
+    .btn-cta-secondary { background: transparent; color: #fff; padding: 13px 28px; border-radius: 9px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.3); }
+    .btn-cta-secondary:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+    /* FOOTER */
+    footer { background: #061F12; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+    .footer-logo span { color: #5DCAA5; }
+    footer p { font-size: 12px; color: rgba(255,255,255,.4); margin: 4px 0 0; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links a:not(.btn-ingresar) { display: none; }
+      .hero { padding: 3rem 1.5rem; flex-direction: column; }
+      .hero-stats { max-width: 100%; }
+      section { padding: 3rem 1.5rem; }
+      .cta-section { padding: 3rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-logo">NEX<span>ERGY</span></div>
+    <div class="nav-links">
+      <a href="#que-es">¿Qué es?</a>
+      <a href="#como-funciona">¿Cómo funciona?</a>
+      <a href="#municipios">Municipios</a>
+      <a href="#contacto">Contacto</a>
+      <a href="{% url 'accounts:login' %}" class="btn-ingresar">
+        <i class="bi bi-box-arrow-in-right"></i> Ingresar
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="badge-ods">
+        <i class="bi bi-patch-check"></i>
+        <span>Alineado con ODS — Agenda 2030</span>
+      </div>
+      <h1>Mide y reduce la <em>huella de carbono</em> de tu entidad</h1>
+      <p>NEXERGY es la plataforma oficial para que alcaldías, empresas y organizaciones de <strong>Sabana Centro, Cundinamarca</strong> gestionen sus emisiones de CO₂ y tomen decisiones hacia la sostenibilidad.</p>
+      <div class="hero-btns">
+        <a href="{% url 'accounts:login' %}" class="btn-primary-hero">
+          <i class="bi bi-box-arrow-in-right"></i> Ingresar a la plataforma
+        </a>
+        <a href="#como-funciona" class="btn-secondary-hero">
+          <i class="bi bi-play-circle"></i> Ver cómo funciona
+        </a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="num">11</div><div class="lbl">Municipios activos</div></div>
+      <div class="stat-card"><div class="num">3</div><div class="lbl">Alcances GHG</div></div>
+      <div class="stat-card"><div class="num">2020</div><div class="lbl">Datos desde</div></div>
+      <div class="stat-card"><div class="num">100%</div><div class="lbl">Gratuito</div></div>
+    </div>
+  </section>
+
+  <!-- QUÉ ES -->
+  <section id="que-es" style="background:#F8FAF8;">
+    <div style="max-width:800px; margin:0 auto;" class="text-center">
+      <span class="section-badge">¿Qué es NEXERGY?</span>
+      <h2 class="section-title">La plataforma de sostenibilidad para Sabana Centro</h2>
+      <p class="section-sub" style="max-width:640px; margin:0 auto;">NEXERGY permite a alcaldías, secretarías, empresas públicas, empresas privadas y ONGs de la región Sabana Centro registrar y analizar sus consumos de energía, combustibles y residuos para calcular automáticamente su huella de carbono en toneladas de CO₂ equivalente (tCO₂e), generando reportes y recomendaciones de energías renovables alineadas con los ODS de la Agenda 2030.</p>
+    </div>
+  </section>
+
+  <!-- PARA QUIÉN -->
+  <section style="background:#fff;">
+    <div class="text-center">
+      <span class="section-badge">¿Para quién?</span>
+      <h2 class="section-title">Diseñado para todos los actores del territorio</h2>
+    </div>
+    <div class="cards-grid">
+      <div class="card-item">
+        <div class="card-icon"><i class="bi bi-bank"></i></div>
+        <h3>Entes gubernamentales</h3>
+        <p>Alcaldías, secretarías municipales y entidades públicas de los 11 municipios de Sabana Centro.</p>
+      </div>
+      <div class="card-item">
+        <div class="card-icon"><i class="bi bi-building-gear"></i></div>
+        <h3>Empresas privadas</h3>
+        <p>Industrias, comercios y empresas que desean medir y reducir su impacto ambiental en la región.</p>
+      </div>
+      <div class="card-item">
+        <div class="card-icon"><i class="bi bi-people"></i></div>
+        <h3>ONGs y fundaciones</h3>
+        <p>Organizaciones sin ánimo de lucro comprometidas con la sostenibilidad ambiental del territorio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" style="background:#F8FAF8;">
+    <div class="text-center">
+      <span class="section-badge">¿Cómo funciona?</span>
+      <h2 class="section-title">Tres pasos para gestionar tu huella de carbono</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num" style="background:#0D3B22;">1</div>
+        <h3>Registra tus consumos</h3>
+        <p>Ingresa los datos de energía eléctrica, combustibles y residuos de tu entidad mes a mes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num" style="background:#1A6B3C;">2</div>
+        <h3>Analiza tus emisiones</h3>
+        <p>NEXERGY calcula automáticamente tus emisiones en tCO₂e y las muestra en gráficas interactivas.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num" style="background:#5DCAA5;">3</div>
+        <h3>Actúa con recomendaciones</h3>
+        <p>Recibe recomendaciones de energías renovables y descarga reportes PDF para presentar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MUNICIPIOS -->
+  <section id="municipios" style="background:#fff;" class="text-center">
+    <span class="section-badge">Cobertura regional</span>
+    <h2 class="section-title">Los 11 municipios de Sabana Centro</h2>
+    <div class="municipios-wrap">
+      <span class="muni-badge">Cajicá</span>
+      <span class="muni-badge">Chía</span>
+      <span class="muni-badge">Cogua</span>
+      <span class="muni-badge">Cota</span>
+      <span class="muni-badge">Gachancipá</span>
+      <span class="muni-badge">Nemocón</span>
+      <span class="muni-badge">Sopó</span>
+      <span class="muni-badge">Tabio</span>
+      <span class="muni-badge">Tenjo</span>
+      <span class="muni-badge">Tocancipá</span>
+      <span class="muni-badge">Zipaquirá</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>¿Listo para medir tu huella de carbono?</h2>
+    <p>Crea tu cuenta gratis y empieza a gestionar las emisiones de tu entidad hoy mismo.</p>
+    <div class="cta-btns">
+      <a href="{% url 'accounts:login' %}" class="btn-cta-primary">
+        <i class="bi bi-person-plus"></i> Crear cuenta gratis
+      </a>
+      <a href="{% url 'accounts:login' %}" class="btn-cta-secondary">
+        <i class="bi bi-box-arrow-in-right"></i> Ya tengo cuenta
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contacto">
+    <div>
+      <div class="footer-logo">NEX<span>ERGY</span></div>
+      <p>Medición de Huella de Carbono — Sabana Centro, Cundinamarca</p>
+    </div>
+    <p>Proyecto 7.° Semestre · Ingeniería de Sistemas · Universidad de Cundinamarca · 2026</p>
+  </footer>
+
+</body>
+</html>

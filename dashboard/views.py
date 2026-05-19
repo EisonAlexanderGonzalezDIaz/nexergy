@@ -11,6 +11,10 @@ from calculadora.services import (
 )
 from recomendaciones.services import generar_recomendaciones
 
+def landing(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard:index')
+    return render(request, 'landing.html')
 
 @login_required
 def index(request):
