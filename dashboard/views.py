@@ -3,7 +3,6 @@ import json
 import datetime
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from calculadora.services import (
     obtener_resumen_entidad,
     obtener_tendencia_mensual,
@@ -14,7 +13,10 @@ from recomendaciones.services import generar_recomendaciones
 def landing(request):
     if request.user.is_authenticated:
         return redirect('dashboard:index')
-    return render(request, 'landing.html')
+    contacto_ok = False
+    if request.method == 'POST' and request.POST.get('form_contacto'):
+        contacto_ok = True
+    return render(request, 'landing.html', {'contacto_ok': contacto_ok})
 
 @login_required
 def index(request):
