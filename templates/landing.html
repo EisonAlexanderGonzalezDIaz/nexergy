@@ -423,5 +423,206 @@
     <p>Proyecto 7.° Semestre · Ingeniería de Sistemas · Universidad de Cundinamarca · 2026</p>
   </footer>
 
+  <!-- CHATBOT -->
+  <div id="chat-btn" onclick="toggleChat()" style="position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:#1A6B3C; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,.3); z-index:1000;">
+    <i class="bi bi-chat-dots" id="chat-icon" style="font-size:24px; color:#fff;"></i>
+  </div>
+
+  <div id="chat-window" style="display:none; position:fixed; bottom:90px; right:24px; width:360px; height:500px; background:#fff; border-radius:16px; box-shadow:0 8px 40px rgba(0,0,0,.25); z-index:1000; display:none; flex-direction:column; overflow:hidden;">
+
+    <!-- Header -->
+    <div style="background:#0D3B22; padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:36px; height:36px; background:#1A6B3C; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <i class="bi bi-robot" style="font-size:18px; color:#5DCAA5;"></i>
+        </div>
+        <div>
+          <div style="font-size:14px; font-weight:600; color:#fff;">Asistente NEXERGY</div>
+          <div style="font-size:11px; color:#5DCAA5;">● En línea</div>
+        </div>
+      </div>
+      <button onclick="toggleChat()" style="background:none; border:none; color:rgba(255,255,255,.7); font-size:20px; cursor:pointer; line-height:1;">×</button>
+    </div>
+
+    <!-- Mensajes -->
+    <div id="chat-messages" style="flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; background:#F8FAF8;">
+      <div class="msg-bot">
+        <div class="msg-bubble-bot">¡Hola! Soy el asistente de NEXERGY 🌱 Puedo ayudarte con información sobre la plataforma, cómo registrarte, los municipios de Sabana Centro, los ODS y mucho más. ¿En qué te puedo ayudar?</div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+        <button class="quick-btn" onclick="sendQuick('¿Qué es NEXERGY?')">¿Qué es NEXERGY?</button>
+        <button class="quick-btn" onclick="sendQuick('¿Cómo me registro?')">¿Cómo me registro?</button>
+        <button class="quick-btn" onclick="sendQuick('¿Qué es tCO₂e?')">¿Qué es tCO₂e?</button>
+        <button class="quick-btn" onclick="sendQuick('¿Qué ODS maneja?')">¿Qué ODS maneja?</button>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div style="padding:12px 16px; border-top:1px solid #E8F0E8; background:#fff; display:flex; gap:8px; align-items:center;">
+      <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter') sendMsg()" style="flex:1; padding:9px 12px; border:1.5px solid #E0EDE0; border-radius:8px; font-size:13px; outline:none; color:#333;">
+      <button onclick="sendMsg()" style="width:38px; height:38px; background:#1A6B3C; border:none; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;">
+        <i class="bi bi-send" style="font-size:15px; color:#fff;"></i>
+      </button>
+    </div>
+  </div>
+
+  <style>
+    .msg-bot { display:flex; justify-content:flex-start; }
+    .msg-user { display:flex; justify-content:flex-end; }
+    .msg-bubble-bot { background:#fff; border:1px solid #E0EDE0; border-radius:12px 12px 12px 4px; padding:10px 14px; font-size:13px; color:#333; line-height:1.6; max-width:85%; }
+    .msg-bubble-user { background:#1A6B3C; border-radius:12px 12px 4px 12px; padding:10px 14px; font-size:13px; color:#fff; line-height:1.6; max-width:85%; }
+    .msg-typing { background:#fff; border:1px solid #E0EDE0; border-radius:12px 12px 12px 4px; padding:10px 14px; font-size:13px; color:#999; max-width:85%; }
+    .quick-btn { background:#E8F5E9; color:#1A6B3C; border:1px solid #C0DD97; border-radius:20px; padding:5px 12px; font-size:12px; cursor:pointer; font-weight:500; }
+    .quick-btn:hover { background:#C0DD97; }
+  </style>
+
+  <script>
+    let chatOpen = false;
+    const chatHistory = [];
+
+    const SYSTEM_PROMPT = `Eres el asistente virtual de NEXERGY, una plataforma web desarrollada por estudiantes de Ingeniería de Sistemas de la Universidad de Cundinamarca para medir y reducir la huella de carbono de entidades de la región Sabana Centro, Cundinamarca, Colombia.
+
+INFORMACIÓN CLAVE DE NEXERGY:
+- URL: https://nexergy-production.up.railway.app
+- Desarrolladores: Sabrina Searley Padilla Robles y Eison Alexander González Díaz
+- Asignatura: Comunicación de Datos — Docente: Mauricio Cardozo
+- Tecnología: Django 4.2 + MySQL + Bootstrap 5 + Chart.js
+
+¿QUÉ ES NEXERGY?
+Plataforma web que permite a alcaldías, secretarías, empresas públicas, empresas privadas y ONGs de Sabana Centro registrar consumos de energía, combustibles y residuos para calcular automáticamente su huella de carbono en tCO₂e (toneladas de CO₂ equivalente).
+
+MUNICIPIOS CUBIERTOS (11 de Sabana Centro):
+Cajicá, Chía, Cogua, Cota, Gachancipá, Nemocón, Sopó, Tabio, Tenjo, Tocancipá y Zipaquirá.
+
+TIPOS DE ENTIDADES:
+- Entes gubernamentales y alcaldías
+- Secretarías municipales
+- Empresas públicas y privadas
+- ONGs y fundaciones
+- Instituciones educativas
+
+CÓMO FUNCIONA (3 pasos):
+1. Registra consumos: energía eléctrica (kWh), combustibles (litros/m³) y residuos (toneladas)
+2. Analiza emisiones: NEXERGY calcula automáticamente en tCO₂e usando factores IPCC AR6 y UPME Colombia
+3. Actúa: recibe recomendaciones de energías renovables y descarga reportes PDF
+
+ALCANCES GHG (3):
+- Alcance 1: Emisiones directas (vehículos, combustibles propios)
+- Alcance 2: Energía eléctrica comprada a la red SIN
+- Alcance 3: Residuos sólidos en relleno sanitario
+
+ODS QUE MANEJA:
+- ODS 7: Energía asequible y no contaminante
+- ODS 11: Ciudades y comunidades sostenibles
+- ODS 13: Acción por el clima (el principal)
+- ODS 17: Alianzas para lograr los objetivos
+
+CÓMO REGISTRARSE:
+1. Ir a https://nexergy-production.up.railway.app
+2. Hacer clic en "Regístrate ahora"
+3. Completar el formulario con nombre, apellido, tipo de entidad, municipio, usuario, correo y contraseña
+4. La cuenta queda activa de inmediato con la entidad asignada automáticamente
+5. Para permisos de Administrador, solicitarlos al administrador de la plataforma
+
+TÉRMINOS TÉCNICOS:
+- tCO₂e: toneladas de CO₂ equivalente — unidad para medir emisiones de gases de efecto invernadero
+- IPCC: Panel Intergubernamental de Cambio Climático — organismo ONU que publica factores de emisión
+- UPME: Unidad de Planeación Minero Energética — publica el factor de emisión de la red eléctrica colombiana
+- GHG Protocol: estándar internacional para medir y reportar emisiones corporativas
+- Huella de carbono: total de gases de efecto invernadero emitidos por una organización
+- Dashboard: pantalla principal con KPIs y gráficas interactivas
+
+FUNCIONALIDADES:
+- Dashboard con KPIs y gráficas Chart.js
+- Comparativa regional entre los 11 municipios
+- Recomendaciones personalizadas de energías renovables
+- Reportes PDF descargables con ReportLab
+- Datos históricos desde 2020 hasta el año actual
+- Factores de emisión basados en IPCC AR6 y UPME Colombia
+- Panel de administración Django Admin
+
+RESPONDE SIEMPRE:
+- En español
+- De forma amable, clara y concisa
+- Con información específica de NEXERGY
+- Si preguntan cómo registrarse, dales el enlace directo
+- Si no sabes algo específico, sugiere contactar a nexergy@udec.edu.co
+- Máximo 3-4 párrafos por respuesta`;
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      const win = document.getElementById('chat-window');
+      const icon = document.getElementById('chat-icon');
+      win.style.display = chatOpen ? 'flex' : 'none';
+      icon.className = chatOpen ? 'bi bi-x-lg' : 'bi bi-chat-dots';
+      if (chatOpen) document.getElementById('chat-input').focus();
+    }
+
+    function addMsg(text, role) {
+      const box = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = role === 'user' ? 'msg-user' : 'msg-bot';
+      const bubble = document.createElement('div');
+      bubble.className = role === 'user' ? 'msg-bubble-user' : 'msg-bubble-bot';
+      bubble.textContent = text;
+      div.appendChild(bubble);
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+      return bubble;
+    }
+
+    function addTyping() {
+      const box = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'msg-bot';
+      div.id = 'typing-indicator';
+      div.innerHTML = '<div class="msg-typing">Escribiendo...</div>';
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('typing-indicator');
+      if (t) t.remove();
+    }
+
+    async function sendMsg() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      addMsg(text, 'user');
+      chatHistory.push({ role: 'user', content: text });
+      addTyping();
+
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            system: SYSTEM_PROMPT,
+            messages: chatHistory
+          })
+        });
+        const data = await res.json();
+        const reply = data.content[0].text;
+        removeTyping();
+        addMsg(reply, 'bot');
+        chatHistory.push({ role: 'assistant', content: reply });
+      } catch (err) {
+        removeTyping();
+        addMsg('Lo siento, hubo un error. Por favor intenta de nuevo o escríbenos a nexergy@udec.edu.co', 'bot');
+      }
+    }
+
+    function sendQuick(text) {
+      document.getElementById('chat-input').value = text;
+      sendMsg();
+    }
+  </script>
+  
 </body>
 </html>
