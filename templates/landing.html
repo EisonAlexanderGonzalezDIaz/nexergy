@@ -476,153 +476,175 @@
     .quick-btn:hover { background:#C0DD97; }
   </style>
 
-  <script>
-    let chatOpen = false;
-    const chatHistory = [];
+  <<script>
+  let chatOpen = false;
+  const chatHistory = [];
 
-    const SYSTEM_PROMPT = `Eres el asistente virtual de NEXERGY, una plataforma web desarrollada por estudiantes de Ingeniería de Sistemas de la Universidad de Cundinamarca para medir y reducir la huella de carbono de entidades de la región Sabana Centro, Cundinamarca, Colombia.
+  const RESPUESTAS_RAPIDAS = {
+    saludos: {
+      patrones: ['hola','buenos días','buenas tardes','buenas noches','buenas','hey','hi','hello','qué tal','como estas','cómo estás'],
+      respuesta: '¡Hola! 👋 Bienvenido al asistente de NEXERGY. Estoy aquí para ayudarte con información sobre la plataforma. ¿En qué te puedo ayudar hoy?'
+    },
+    que_es: {
+      patrones: ['qué es nexergy','que es nexergy','para qué sirve','para que sirve','qué hace','que hace','cuéntame de nexergy','cuentame de nexergy','de qué trata','de que trata'],
+      respuesta: 'NEXERGY es una plataforma web que permite a alcaldías, empresas y organizaciones de Sabana Centro, Cundinamarca medir su huella de carbono institucional. Registras tus consumos de energía, combustibles y residuos, y NEXERGY calcula automáticamente cuántas toneladas de CO₂ equivalente (tCO₂e) estás emitiendo. También genera recomendaciones de energías renovables y reportes PDF. 🌱'
+    },
+    registro: {
+      patrones: ['cómo me registro','como me registro','quiero registrarme','cómo crear cuenta','como crear cuenta','cómo me puedo registrar','quiero una cuenta','crear cuenta','registrarme'],
+      respuesta: 'Registrarse en NEXERGY es muy fácil:\n\n1️⃣ Ve a la página de inicio\n2️⃣ Haz clic en "Regístrate ahora"\n3️⃣ Completa el formulario con tu nombre, tipo de entidad y municipio\n4️⃣ Crea tu usuario y contraseña\n5️⃣ ¡Listo! Tu cuenta queda activa de inmediato con tu entidad asignada automáticamente.'
+    },
+    tco2e: {
+      patrones: ['tco2e','tco₂e','qué es tco','que es tco','co2 equivalente','co₂ equivalente','toneladas de co','emisiones','carbono equivalente'],
+      respuesta: 'tCO₂e significa "toneladas de CO₂ equivalente". Es la unidad de medida que permite comparar diferentes gases de efecto invernadero (CO₂, metano, óxido nitroso) en una sola cifra. Por ejemplo, 1 tonelada de metano equivale a 28 tCO₂e. NEXERGY usa esta unidad basándose en los factores del IPCC AR6 y la UPME Colombia. 🌍'
+    },
+    ods: {
+      patrones: ['ods','objetivos de desarrollo','agenda 2030','sostenible','sostenibilidad','qué ods','que ods','objetivos sostenibles'],
+      respuesta: 'NEXERGY contribuye a 4 Objetivos de Desarrollo Sostenible de la ONU:\n\n🟡 ODS 7 — Energía asequible y no contaminante\n🟠 ODS 11 — Ciudades y comunidades sostenibles\n🟢 ODS 13 — Acción por el clima (el principal)\n🔵 ODS 17 — Alianzas para lograr los objetivos\n\nTodos alineados con la Agenda 2030 y el Plan Nacional de Desarrollo de Colombia.'
+    },
+    municipios: {
+      patrones: ['municipios','municipio','sabana centro','cuáles municipios','cuales municipios','qué municipios','que municipios','chía','cajicá','zipaquirá','cota','sopó','tabio','tenjo','cogua','nemocón','tocancipá','gachancipá'],
+      respuesta: 'NEXERGY cubre los 11 municipios de Sabana Centro, Cundinamarca:\n\n📍 Cajicá, Chía, Cogua, Cota, Gachancipá, Nemocón, Sopó, Tabio, Tenjo, Tocancipá y Zipaquirá.\n\nCada entidad registra sus consumos y puede comparar sus emisiones con los demás municipios de la región.'
+    },
+    alcances: {
+      patrones: ['alcance 1','alcance 2','alcance 3','alcances ghg','qué alcances','que alcances','ghg protocol','protocolo ghg'],
+      respuesta: 'NEXERGY maneja los 3 alcances del GHG Protocol:\n\n🔴 Alcance 1 — Emisiones directas: combustibles de vehículos y maquinaria propios (gasolina, ACPM, gas natural).\n🟡 Alcance 2 — Energía eléctrica comprada a la red eléctrica nacional (SIN).\n🔵 Alcance 3 — Residuos sólidos enviados al relleno sanitario.'
+    },
+    dashboard: {
+      patrones: ['dashboard','panel','gráficas','graficas','kpi','indicadores','cómo veo','como veo mis datos','mis datos'],
+      respuesta: 'El Dashboard de NEXERGY muestra:\n\n📊 KPIs de emisiones por Alcance 1, 2 y 3\n📈 Gráfica de emisiones mensuales\n🍩 Distribución por tipo de consumo\n🏙️ Comparativa regional entre los 11 municipios\n\nPuedes filtrar por año desde 2020 hasta el año actual. ¡Todo en tiempo real!'
+    },
+    pdf: {
+      patrones: ['pdf','reporte','reportes','descargar','informe','descarga'],
+      respuesta: 'Sí, NEXERGY genera reportes PDF automáticamente con:\n\n📄 Datos de tu entidad y municipio\n📊 Tabla de emisiones por Alcance 1, 2 y 3\n🌿 Total de emisiones en tCO₂e\n📅 Fecha de generación\n\nPuedes descargarlo desde el Dashboard con un solo clic. Es perfecto para presentar ante autoridades ambientales o en comités de sostenibilidad.'
+    },
+    gracias: {
+      patrones: ['gracias','muchas gracias','thank you','thanks','perfecto','excelente','genial','muy bien','de nada','ok gracias'],
+      respuesta: '¡Con gusto! 😊 Si tienes más preguntas sobre NEXERGY estoy aquí para ayudarte. ¡Que tengas un excelente día!'
+    },
+    adios: {
+      patrones: ['adiós','adios','hasta luego','chao','chau','bye','nos vemos','hasta pronto'],
+      respuesta: '¡Hasta luego! 👋 Fue un placer ayudarte. Recuerda que puedes ingresar a NEXERGY en cualquier momento. ¡Que tengas un excelente día!'
+    }
+  };
 
-INFORMACIÓN CLAVE DE NEXERGY:
+  const SYSTEM_PROMPT = `Eres el asistente virtual de NEXERGY, una plataforma web para medir y reducir la huella de carbono de entidades de la región Sabana Centro, Cundinamarca, Colombia. Desarrollada por estudiantes de Ingeniería de Sistemas de la Universidad de Cundinamarca.
+
+INFORMACIÓN CLAVE:
 - URL: https://nexergy-production.up.railway.app
 - Desarrolladores: Sabrina Searley Padilla Robles y Eison Alexander González Díaz
 - Asignatura: Comunicación de Datos — Docente: Mauricio Cardozo
-- Tecnología: Django 4.2 + MySQL + Bootstrap 5 + Chart.js
+- Stack: Django 4.2, MySQL, Bootstrap 5, Chart.js
 
-¿QUÉ ES NEXERGY?
-Plataforma web que permite a alcaldías, secretarías, empresas públicas, empresas privadas y ONGs de Sabana Centro registrar consumos de energía, combustibles y residuos para calcular automáticamente su huella de carbono en tCO₂e (toneladas de CO₂ equivalente).
+NEXERGY permite registrar consumos de energía eléctrica (kWh), combustibles (litros/m³) y residuos (toneladas) para calcular emisiones en tCO₂e usando factores IPCC AR6 y UPME Colombia.
 
-MUNICIPIOS CUBIERTOS (11 de Sabana Centro):
-Cajicá, Chía, Cogua, Cota, Gachancipá, Nemocón, Sopó, Tabio, Tenjo, Tocancipá y Zipaquirá.
+Maneja los ODS 7, 11, 13 y 17. Cubre 11 municipios: Cajicá, Chía, Cogua, Cota, Gachancipá, Nemocón, Sopó, Tabio, Tenjo, Tocancipá y Zipaquirá.
 
-TIPOS DE ENTIDADES:
-- Entes gubernamentales y alcaldías
-- Secretarías municipales
-- Empresas públicas y privadas
-- ONGs y fundaciones
-- Instituciones educativas
+REGLAS IMPORTANTES:
+- Responde SIEMPRE en español
+- Sé amable, claro y conciso
+- Máximo 3 párrafos por respuesta
+- Si la pregunta es muy específica o técnica que no puedas responder con certeza, indica que pueden escribir a nexergy@udec.edu.co
+- NUNCA inventes funcionalidades que no existen en NEXERGY`;
 
-CÓMO FUNCIONA (3 pasos):
-1. Registra consumos: energía eléctrica (kWh), combustibles (litros/m³) y residuos (toneladas)
-2. Analiza emisiones: NEXERGY calcula automáticamente en tCO₂e usando factores IPCC AR6 y UPME Colombia
-3. Actúa: recibe recomendaciones de energías renovables y descarga reportes PDF
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    const win = document.getElementById('chat-window');
+    const icon = document.getElementById('chat-icon');
+    win.style.display = chatOpen ? 'flex' : 'none';
+    icon.className = chatOpen ? 'bi bi-x-lg' : 'bi bi-chat-dots';
+    if (chatOpen) document.getElementById('chat-input').focus();
+  }
 
-ALCANCES GHG (3):
-- Alcance 1: Emisiones directas (vehículos, combustibles propios)
-- Alcance 2: Energía eléctrica comprada a la red SIN
-- Alcance 3: Residuos sólidos en relleno sanitario
+  function addMsg(text, role) {
+    const box = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = role === 'user' ? 'msg-user' : 'msg-bot';
+    const bubble = document.createElement('div');
+    bubble.className = role === 'user' ? 'msg-bubble-user' : 'msg-bubble-bot';
+    bubble.style.whiteSpace = 'pre-line';
+    bubble.textContent = text;
+    div.appendChild(bubble);
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
 
-ODS QUE MANEJA:
-- ODS 7: Energía asequible y no contaminante
-- ODS 11: Ciudades y comunidades sostenibles
-- ODS 13: Acción por el clima (el principal)
-- ODS 17: Alianzas para lograr los objetivos
+  function addTyping() {
+    const box = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg-bot';
+    div.id = 'typing-indicator';
+    div.innerHTML = '<div class="msg-typing">Escribiendo<span class="dots">...</span></div>';
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
 
-CÓMO REGISTRARSE:
-1. Ir a https://nexergy-production.up.railway.app
-2. Hacer clic en "Regístrate ahora"
-3. Completar el formulario con nombre, apellido, tipo de entidad, municipio, usuario, correo y contraseña
-4. La cuenta queda activa de inmediato con la entidad asignada automáticamente
-5. Para permisos de Administrador, solicitarlos al administrador de la plataforma
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
 
-TÉRMINOS TÉCNICOS:
-- tCO₂e: toneladas de CO₂ equivalente — unidad para medir emisiones de gases de efecto invernadero
-- IPCC: Panel Intergubernamental de Cambio Climático — organismo ONU que publica factores de emisión
-- UPME: Unidad de Planeación Minero Energética — publica el factor de emisión de la red eléctrica colombiana
-- GHG Protocol: estándar internacional para medir y reportar emisiones corporativas
-- Huella de carbono: total de gases de efecto invernadero emitidos por una organización
-- Dashboard: pantalla principal con KPIs y gráficas interactivas
-
-FUNCIONALIDADES:
-- Dashboard con KPIs y gráficas Chart.js
-- Comparativa regional entre los 11 municipios
-- Recomendaciones personalizadas de energías renovables
-- Reportes PDF descargables con ReportLab
-- Datos históricos desde 2020 hasta el año actual
-- Factores de emisión basados en IPCC AR6 y UPME Colombia
-- Panel de administración Django Admin
-
-RESPONDE SIEMPRE:
-- En español
-- De forma amable, clara y concisa
-- Con información específica de NEXERGY
-- Si preguntan cómo registrarse, dales el enlace directo
-- Si no sabes algo específico, sugiere contactar a nexergy@udec.edu.co
-- Máximo 3-4 párrafos por respuesta`;
-
-    function toggleChat() {
-      chatOpen = !chatOpen;
-      const win = document.getElementById('chat-window');
-      const icon = document.getElementById('chat-icon');
-      win.style.display = chatOpen ? 'flex' : 'none';
-      icon.className = chatOpen ? 'bi bi-x-lg' : 'bi bi-chat-dots';
-      if (chatOpen) document.getElementById('chat-input').focus();
-    }
-
-    function addMsg(text, role) {
-      const box = document.getElementById('chat-messages');
-      const div = document.createElement('div');
-      div.className = role === 'user' ? 'msg-user' : 'msg-bot';
-      const bubble = document.createElement('div');
-      bubble.className = role === 'user' ? 'msg-bubble-user' : 'msg-bubble-bot';
-      bubble.textContent = text;
-      div.appendChild(bubble);
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
-      return bubble;
-    }
-
-    function addTyping() {
-      const box = document.getElementById('chat-messages');
-      const div = document.createElement('div');
-      div.className = 'msg-bot';
-      div.id = 'typing-indicator';
-      div.innerHTML = '<div class="msg-typing">Escribiendo...</div>';
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
-    }
-
-    function removeTyping() {
-      const t = document.getElementById('typing-indicator');
-      if (t) t.remove();
-    }
-
-    async function sendMsg() {
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text) return;
-      input.value = '';
-
-      addMsg(text, 'user');
-      chatHistory.push({ role: 'user', content: text });
-      addTyping();
-
-      try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 1000,
-            system: SYSTEM_PROMPT,
-            messages: chatHistory
-          })
-        });
-        const data = await res.json();
-        const reply = data.content[0].text;
-        removeTyping();
-        addMsg(reply, 'bot');
-        chatHistory.push({ role: 'assistant', content: reply });
-      } catch (err) {
-        removeTyping();
-        addMsg('Lo siento, hubo un error. Por favor intenta de nuevo o escríbenos a nexergy@udec.edu.co', 'bot');
+  function buscarRespuestaRapida(texto) {
+    const lower = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    for (const clave in RESPUESTAS_RAPIDAS) {
+      const item = RESPUESTAS_RAPIDAS[clave];
+      for (const patron of item.patrones) {
+        const patronNorm = patron.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        if (lower.includes(patronNorm)) {
+          return item.respuesta;
+        }
       }
     }
+    return null;
+  }
 
-    function sendQuick(text) {
-      document.getElementById('chat-input').value = text;
-      sendMsg();
+  async function sendMsg() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+
+    addMsg(text, 'user');
+    chatHistory.push({ role: 'user', content: text });
+
+    // Intentar respuesta rápida primero
+    const respuestaRapida = buscarRespuestaRapida(text);
+    if (respuestaRapida) {
+      setTimeout(() => {
+        addMsg(respuestaRapida, 'bot');
+        chatHistory.push({ role: 'assistant', content: respuestaRapida });
+      }, 400);
+      return;
     }
-  </script>
-  
+
+    // Si no hay respuesta rápida, usar Claude API
+    addTyping();
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: chatHistory
+        })
+      });
+      const data = await res.json();
+      const reply = data.content[0].text;
+      removeTyping();
+      addMsg(reply, 'bot');
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      removeTyping();
+      addMsg('Lo siento, no pude procesar tu pregunta en este momento. Para más información puedes escribirnos a nexergy@udec.edu.co y te responderemos a la brevedad. 📧', 'bot');
+    }
+  }
+
+  function sendQuick(text) {
+    document.getElementById('chat-input').value = text;
+    sendMsg();
+  }
+</script>
+
 </body>
 </html>
