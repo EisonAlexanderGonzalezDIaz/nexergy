@@ -10,17 +10,10 @@
     body { font-family: 'Segoe UI', sans-serif; background: #fff; }
     a { text-decoration: none; }
 
-    /* NAVBAR */
     nav {
-      background: #0D3B22;
-      padding: 0 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background: #0D3B22; padding: 0 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; position: sticky; top: 0; z-index: 100;
     }
     .nav-logo { background: #fff; border-radius: 8px; padding: 6px 12px; font-size: 16px; font-weight: 700; color: #1A6B3C; letter-spacing: 1px; }
     .nav-logo span { color: #0D3B22; }
@@ -30,7 +23,6 @@
     .btn-ingresar { background: #1A6B3C; color: #fff !important; padding: 8px 20px; border-radius: 8px; font-weight: 500; border: 1px solid rgba(255,255,255,.2); }
     .btn-ingresar:hover { background: #145530 !important; }
 
-    /* HERO */
     .hero { background: #0D3B22; padding: 5rem 3rem 4rem; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; }
     .hero-text { flex: 1; min-width: 280px; max-width: 520px; }
     .badge-ods { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; padding: 5px 14px; margin-bottom: 1.5rem; }
@@ -50,14 +42,12 @@
     .stat-card .num { font-size: 28px; font-weight: 700; color: #5DCAA5; }
     .stat-card .lbl { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 4px; }
 
-    /* SECCIONES */
     section { padding: 4rem 3rem; }
     .section-badge { display: inline-block; background: #E8F5E9; color: #1A6B3C; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; margin-bottom: 1rem; }
     .section-title { font-size: 26px; font-weight: 700; color: #0D3B22; margin-bottom: 0.5rem; }
     .section-sub { font-size: 14px; color: #666; line-height: 1.7; }
     .text-center { text-align: center; }
 
-    /* CARDS */
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 880px; margin: 2rem auto 0; }
     .card-item { background: #F8FAF8; border: 1px solid #E0EDE0; border-radius: 12px; padding: 24px; }
     .card-icon { width: 44px; height: 44px; background: #1A6B3C; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
@@ -65,18 +55,15 @@
     .card-item h3 { font-size: 15px; font-weight: 600; color: #0D3B22; margin-bottom: 8px; }
     .card-item p { font-size: 13px; color: #666; line-height: 1.6; }
 
-    /* PASOS */
     .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 880px; margin: 2rem auto 0; }
     .step-card { background: #fff; border: 1px solid #E0EDE0; border-radius: 12px; padding: 24px; }
     .step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 14px; font-weight: 700; color: #fff; }
     .step-card h3 { font-size: 15px; font-weight: 600; color: #0D3B22; margin-bottom: 8px; }
     .step-card p { font-size: 13px; color: #666; line-height: 1.6; }
 
-    /* MUNICIPIOS */
     .municipios-wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 700px; margin: 1.5rem auto 0; }
     .muni-badge { background: #E8F5E9; color: #1A6B3C; font-size: 13px; padding: 7px 16px; border-radius: 20px; border: 1px solid #C0DD97; font-weight: 500; }
 
-    /* CTA */
     .cta-section { background: #0D3B22; text-align: center; }
     .cta-section h2 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 1rem; }
     .cta-section p { font-size: 14px; color: rgba(255,255,255,.7); margin-bottom: 2rem; }
@@ -86,7 +73,18 @@
     .btn-cta-secondary { background: transparent; color: #fff; padding: 13px 28px; border-radius: 9px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.3); }
     .btn-cta-secondary:hover { background: rgba(255,255,255,.08); color: #fff; }
 
-    /* FOOTER */
+    .contacto-input {
+      width: 100%; padding: 10px 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px; font-size: 13px;
+      color: #fff; outline: none;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    .contacto-input::placeholder { color: rgba(255,255,255,.45); }
+    .contacto-input:focus { border-color: #5DCAA5; }
+
     footer { background: #061F12; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
     .footer-logo { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 1px; }
     .footer-logo span { color: #5DCAA5; }
@@ -100,6 +98,7 @@
       section { padding: 3rem 1.5rem; }
       .cta-section { padding: 3rem 1.5rem; }
       footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+      .contacto-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -237,8 +236,101 @@
     </div>
   </section>
 
+  <!-- CONTACTO -->
+  <section id="contacto" style="background:#0D3B22;">
+    <div style="max-width:900px; margin:0 auto;">
+      <div style="margin-bottom:3rem;">
+        <span style="background:rgba(255,255,255,.1); color:#9FE1CB; font-size:12px; font-weight:500; padding:5px 14px; border-radius:20px; border:1px solid rgba(255,255,255,.2);">Contáctanos</span>
+        <h2 style="color:#fff; font-size:32px; font-weight:700; margin:1rem 0 0.5rem; line-height:1.2;">Comunícate con<br>nosotros</h2>
+        <p style="color:rgba(255,255,255,.6); font-size:14px; line-height:1.7; max-width:400px;">Si tienes alguna inquietud, sugerencia o necesidad, escríbenos y te daremos respuesta lo antes posible.</p>
+      </div>
+
+      <div class="contacto-grid" style="display:grid; grid-template-columns:1fr 1.2fr; gap:3rem; align-items:start;">
+
+        <!-- Datos de contacto -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; background:rgba(255,255,255,.08); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <i class="bi bi-envelope" style="font-size:18px; color:#5DCAA5;"></i>
+            </div>
+            <div>
+              <div style="font-size:11px; color:rgba(255,255,255,.4); margin-bottom:2px;">Correo electrónico</div>
+              <div style="font-size:13px; color:#fff;">nexergy@udec.edu.co</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; background:rgba(255,255,255,.08); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <i class="bi bi-telephone" style="font-size:18px; color:#5DCAA5;"></i>
+            </div>
+            <div>
+              <div style="font-size:11px; color:rgba(255,255,255,.4); margin-bottom:2px;">Teléfono</div>
+              <div style="font-size:13px; color:#fff;">+57 (1) 820 9800</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; background:rgba(255,255,255,.08); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <i class="bi bi-geo-alt" style="font-size:18px; color:#5DCAA5;"></i>
+            </div>
+            <div>
+              <div style="font-size:11px; color:rgba(255,255,255,.4); margin-bottom:2px;">Ubicación</div>
+              <div style="font-size:13px; color:#fff;">Chía, Cundinamarca, Colombia</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; background:rgba(255,255,255,.08); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <i class="bi bi-clock" style="font-size:18px; color:#5DCAA5;"></i>
+            </div>
+            <div>
+              <div style="font-size:11px; color:rgba(255,255,255,.4); margin-bottom:2px;">Horario de atención</div>
+              <div style="font-size:13px; color:#fff;">Lunes a viernes 8:00 am – 5:00 pm</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:2rem;">
+          <p style="font-size:13px; color:rgba(255,255,255,.65); margin:0 0 1.2rem; line-height:1.6;">Si tienes alguna otra inquietud, sugerencia o necesidad, escríbenos y te daremos respuesta lo antes posible.</p>
+
+          {% if contacto_ok %}
+          <div style="background:rgba(93,202,165,.15); border:1px solid rgba(93,202,165,.4); border-radius:8px; padding:14px; margin-bottom:14px; display:flex; align-items:center; gap:10px;">
+            <i class="bi bi-check-circle" style="font-size:18px; color:#5DCAA5;"></i>
+            <span style="font-size:13px; color:#9FE1CB;">¡Mensaje enviado! Te responderemos pronto.</span>
+          </div>
+          {% endif %}
+
+          <form method="post" action="#contacto">
+            {% csrf_token %}
+            <input type="hidden" name="form_contacto" value="1">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:0;">
+              <input type="text" name="nombre" placeholder="Nombre" class="contacto-input" required>
+              <input type="text" name="apellido" placeholder="Apellido" class="contacto-input" required>
+            </div>
+            <input type="email" name="email" placeholder="Correo electrónico" class="contacto-input" required>
+            <input type="tel" name="telefono" placeholder="Teléfono / Celular" class="contacto-input">
+            <select name="motivo" class="contacto-input" required style="color:rgba(255,255,255,.6);">
+              <option value="">Motivo de contacto...</option>
+              <option>Soporte técnico</option>
+              <option>Información general</option>
+              <option>Registro de entidad</option>
+              <option>Reporte de error</option>
+              <option>Otro</option>
+            </select>
+            <textarea name="mensaje" placeholder="Detalla tu solicitud, inquietud o necesidad..." class="contacto-input" style="height:90px; resize:vertical;" required></textarea>
+            <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:14px;">
+              <input type="checkbox" required style="width:15px; height:15px; margin-top:2px; cursor:pointer; flex-shrink:0;">
+              <span style="font-size:12px; color:rgba(255,255,255,.6); line-height:1.5;">Acepto la <a href="#" style="color:#5DCAA5;">Política de Tratamiento y Protección de Datos Personales</a> conforme a la Ley 1581 de 2012.</span>
+            </div>
+            <button type="submit" style="width:100%; padding:12px; background:#1A6B3C; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <i class="bi bi-send"></i> Enviar mensaje
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
-  <footer id="contacto">
+  <footer>
     <div>
       <div class="footer-logo">NEX<span>ERGY</span></div>
       <p>Medición de Huella de Carbono — Sabana Centro, Cundinamarca</p>
