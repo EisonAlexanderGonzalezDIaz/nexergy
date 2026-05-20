@@ -80,6 +80,12 @@ def registro_view(request):
             f'¡Bienvenido {first_name}! Tu cuenta ha sido creada. Ya puedes ingresar.'
         )
         return redirect('accounts:login')
+    
+        from django.views.decorators.csrf import ensure_csrf_cookie
+
+        @ensure_csrf_cookie
+        def registro_view(request):
+            ...
 
     return redirect('accounts:login')
 
@@ -94,3 +100,22 @@ def check_email(request):
     email = request.GET.get('email', '')
     exists = User.objects.filter(email=email).exists()
     return JsonResponse({'exists': exists})
+
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard:index')
+
+    form = AuthenticationForm(request, data=request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard:index')
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos.')
+
+    return render(request, 'accounts/login.html', {'form': form})
