@@ -1,14 +1,13 @@
 """dashboard/views.py"""
 import json
 import datetime
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from recomendaciones.services import generar_recomendaciones
 from calculadora.services import (
     obtener_resumen_entidad,
-    obtener_tendencia_mensual,
     obtener_comparativa_regional,
 )
-from recomendaciones.services import generar_recomendaciones
 
 def landing(request):
     if request.user.is_authenticated:
