@@ -42,6 +42,14 @@
         </div>
       </div>
 
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="background:#E8F5E9; border-radius:20px; padding:6px 16px; font-size:13px; color:#1A6B3C; font-weight:500;">
+        <i class="bi bi-stars"></i> {{ recomendaciones|length }} recomendación{{ recomendaciones|length|pluralize }}
+      </div>
+      <a href="?regenerar=1" class="btn btn-sm btn-outline-success" style="border-radius:8px; font-size:12px;">
+      <i class="bi bi-arrow-clockwise"></i> Regenerar
+      </a>
+    </div>
       <!-- Cambiar estado -->
       <form method="post" action="{% url 'recomendaciones:estado' rec.pk %}" class="d-flex gap-2 align-items-center">
         {% csrf_token %}
