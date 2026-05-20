@@ -1,46 +1,114 @@
 {% extends "base.html" %}
-{% block titulo %}Nuevo Consumo{% endblock %}
+{% block titulo %}Registrar Consumo{% endblock %}
 {% block page_title %}<i class="bi bi-plus-circle"></i> Registrar Consumo{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-7">
+  <div class="col-md-8">
+
+    <!-- Encabezado -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h5 style="color:#0D3B22; font-weight:600; margin:0;">Nuevo registro de consumo</h5>
+        <span class="text-muted small">NEXERGY calculará las emisiones en tCO₂e automáticamente al guardar.</span>
+      </div>
+      <a href="{% url 'consumos:lista' %}" class="btn btn-sm btn-outline-secondary" style="border-radius:8px;">
+        <i class="bi bi-arrow-left"></i> Volver
+      </a>
+    </div>
+
+    <!-- Tarjetas de alcances -->
+    <div class="row g-2 mb-4">
+      <div class="col-md-4">
+        <div style="background:#E8F5E9; border-radius:10px; padding:12px 14px; border-left:4px solid #1A6B3C;">
+          <div style="font-size:12px; font-weight:600; color:#1A6B3C; margin-bottom:4px;"><i class="bi bi-fuel-pump"></i> Alcance 1</div>
+          <div style="font-size:11px; color:#555;">Gasolina, ACPM, Gas Natural, GLP</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div style="background:#E3F2FD; border-radius:10px; padding:12px 14px; border-left:4px solid #1565C0;">
+          <div style="font-size:12px; font-weight:600; color:#1565C0; margin-bottom:4px;"><i class="bi bi-lightning-charge"></i> Alcance 2</div>
+          <div style="font-size:11px; color:#555;">Energía eléctrica red SIN</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div style="background:#FBE9E7; border-radius:10px; padding:12px 14px; border-left:4px solid #E65100;">
+          <div style="font-size:12px; font-weight:600; color:#E65100; margin-bottom:4px;"><i class="bi bi-recycle"></i> Alcance 3</div>
+          <div style="font-size:11px; color:#555;">Residuos sólidos en relleno</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
     <div class="chart-card">
-      <p class="text-muted small mb-3">
-        Ingresa el consumo mensual de tu entidad. NEXERGY calculará automáticamente
-        las emisiones en tCO₂e al guardar.
-      </p>
+      <h6 style="color:#0D3B22; font-weight:600; margin-bottom:1.2rem; padding-bottom:.75rem; border-bottom:1px solid #F0F4F1; display:flex; align-items:center; gap:7px;">
+        <i class="bi bi-pencil-square" style="color:#1A6B3C;"></i> Datos del consumo
+      </h6>
+
       <form method="post">
         {% csrf_token %}
-        {% for field in form %}
-        <div class="mb-3">
-          <label class="form-label fw-semibold">{{ field.label }}</label>
-          {{ field }}
-          {% if field.help_text %}
-            <div class="form-text">{{ field.help_text }}</div>
-          {% endif %}
-          {% if field.errors %}
-            <div class="text-danger small">{{ field.errors }}</div>
-          {% endif %}
+        <div class="row g-3">
+          {% for field in form %}
+          <div class="{% if forloop.counter == 1 %}col-12{% else %}col-md-6{% endif %}">
+            <label class="form-label" style="font-weight:500; font-size:.88rem; color:#444;">
+              {{ field.label }}
+              {% if field.field.required %}<span style="color:#E65100;">*</span>{% endif %}
+            </label>
+            {{ field }}
+            {% if field.help_text %}
+              <div class="form-text" style="font-size:.78rem;">{{ field.help_text }}</div>
+            {% endif %}
+            {% if field.errors %}
+              <div style="font-size:.8rem; color:#E65100; margin-top:3px;">
+                <i class="bi bi-exclamation-circle"></i> {{ field.errors|join:", " }}
+              </div>
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-        <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-success">
+
+        <!-- Botones -->
+        <div class="d-flex gap-2 mt-4 pt-3" style="border-top:1px solid #F0F4F1;">
+          <button type="submit" class="btn btn-success px-4" style="border-radius:8px;">
             <i class="bi bi-calculator"></i> Guardar y calcular emisión
           </button>
-          <a href="{% url 'consumos:lista' %}" class="btn btn-outline-secondary">Cancelar</a>
+          <a href="{% url 'consumos:lista' %}" class="btn btn-outline-secondary" style="border-radius:8px;">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </a>
         </div>
       </form>
     </div>
 
-    <!-- Cuadro informativo -->
-    <div class="alert alert-success mt-3" style="border-left: 4px solid #1A6B3C;">
-      <strong><i class="bi bi-info-circle"></i> ¿Cómo funciona?</strong><br>
-      <small>
-        Selecciona el tipo de consumo (gasolina, energía eléctrica, residuos…),
-        ingresa la cantidad y el mes. NEXERGY multiplica tu consumo por el
-        factor de emisión del IPCC/UPME y guarda el resultado en tCO₂e.
-      </small>
+    <!-- Info IPCC -->
+    <div style="background:#F8FAF8; border-radius:12px; border-left:4px solid #1A6B3C; padding:1rem 1.2rem; margin-top:1rem; display:flex; gap:12px; align-items:flex-start;">
+      <i class="bi bi-info-circle" style="font-size:1.2rem; color:#1A6B3C; flex-shrink:0; margin-top:2px;"></i>
+      <div>
+        <div style="font-weight:600; font-size:.9rem; color:#0D3B22; margin-bottom:4px;">¿Cómo se calcula la emisión?</div>
+        <div style="font-size:.82rem; color:#666; line-height:1.6;">
+          NEXERGY multiplica tu cantidad ingresada por el factor de emisión correspondiente
+          según el <strong>IPCC AR6</strong> y la <strong>UPME Colombia</strong>.
+          El resultado se expresa en <strong>tCO₂e</strong> (toneladas de CO₂ equivalente)
+          y queda registrado automáticamente en tu historial.
+        </div>
+      </div>
     </div>
+
   </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .form-control, .form-select {
+    border-radius: 8px;
+    border: 1.5px solid #E0E0E0;
+    font-size: .9rem;
+    padding: .5rem .75rem;
+    transition: border-color .2s;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #1A6B3C;
+    box-shadow: 0 0 0 3px rgba(26,107,60,.1);
+  }
+</style>
 {% endblock %}
