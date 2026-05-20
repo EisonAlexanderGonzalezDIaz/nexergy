@@ -80,36 +80,73 @@
     </div>
 
     <!-- KPIs -->
-    <div class="row g-3 mb-4">
-      <div class="col-md-3">
-        <div class="kpi-card total-card">
-          <div class="kpi-value">{{ resumen.total|floatformat:2|default:"0.00" }}</div>
-          <div class="kpi-unit">tCO₂e totales</div>
-          <div class="kpi-label"><i class="bi bi-globe2"></i> Total emisiones {{ año }}</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="kpi-card alcance-1">
-          <div class="kpi-value">{{ resumen.alcance_1|floatformat:2|default:"0.00" }}</div>
-          <div class="kpi-unit">tCO₂e</div>
-          <div class="kpi-label"><i class="bi bi-fuel-pump"></i> Alcance 1 — Combustibles</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="kpi-card alcance-2">
-          <div class="kpi-value">{{ resumen.alcance_2|floatformat:2|default:"0.00" }}</div>
-          <div class="kpi-unit">tCO₂e</div>
-          <div class="kpi-label"><i class="bi bi-lightning-charge"></i> Alcance 2 — Electricidad</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="kpi-card alcance-3">
-          <div class="kpi-value">{{ resumen.alcance_3|floatformat:2|default:"0.00" }}</div>
-          <div class="kpi-unit">tCO₂e</div>
-          <div class="kpi-label"><i class="bi bi-recycle"></i> Alcance 3 — Residuos</div>
-        </div>
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="kpi-card total-card">
+      <div class="kpi-value">{{ resumen.total|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-unit">tCO₂e totales</div>
+      <div class="kpi-label"><i class="bi bi-globe2"></i> Total emisiones {{ año }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card alcance-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+         title="Alcance 1: Emisiones DIRECTAS generadas por fuentes propias de la entidad — vehículos institucionales, calderas, generadores. Combustibles: gasolina, ACPM, gas natural, GLP.">
+      <div class="kpi-value">{{ resumen.alcance_1|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-unit">tCO₂e</div>
+      <div class="kpi-label"><i class="bi bi-fuel-pump"></i> Alcance 1 — Combustibles</div>
+      <div style="font-size:.75rem; color:#aaa; margin-top:6px; border-top:1px solid #F0F0F0; padding-top:6px;">
+        <i class="bi bi-car-front"></i> Vehículos &nbsp;·&nbsp;
+        <i class="bi bi-droplet"></i> Combustibles propios
       </div>
     </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card alcance-2" data-bs-toggle="tooltip" data-bs-placement="bottom"
+         title="Alcance 2: Emisiones INDIRECTAS por consumo de energía eléctrica comprada a la red nacional (SIN). Depende del mix energético de Colombia — Factor UPME.">
+      <div class="kpi-value">{{ resumen.alcance_2|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-unit">tCO₂e</div>
+      <div class="kpi-label"><i class="bi bi-lightning-charge"></i> Alcance 2 — Electricidad</div>
+      <div style="font-size:.75rem; color:#aaa; margin-top:6px; border-top:1px solid #F0F0F0; padding-top:6px;">
+        <i class="bi bi-plug"></i> Red eléctrica SIN &nbsp;·&nbsp;
+        <i class="bi bi-building"></i> Consumo institucional
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card alcance-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
+         title="Alcance 3: Otras emisiones INDIRECTAS — residuos sólidos enviados al relleno sanitario. Incluye la descomposición anaeróbica que genera metano (CH₄).">
+      <div class="kpi-value">{{ resumen.alcance_3|floatformat:2|default:"0.00" }}</div>
+      <div class="kpi-unit">tCO₂e</div>
+      <div class="kpi-label"><i class="bi bi-recycle"></i> Alcance 3 — Residuos</div>
+      <div style="font-size:.75rem; color:#aaa; margin-top:6px; border-top:1px solid #F0F0F0; padding-top:6px;">
+        <i class="bi bi-trash"></i> Relleno sanitario &nbsp;·&nbsp;
+        <i class="bi bi-arrow-repeat"></i> Residuos sólidos
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Leyenda de alcances -->
+<div style="background:#fff; border-radius:12px; padding:1rem 1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+  <span style="font-size:.82rem; font-weight:600; color:#0D3B22;">
+    <i class="bi bi-info-circle" style="color:#1A6B3C;"></i> Estándar GHG Protocol:
+  </span>
+  <span style="font-size:.82rem; color:#555; display:flex; align-items:center; gap:6px;">
+    <span style="width:12px; height:12px; background:#1A6B3C; border-radius:3px; display:inline-block;"></span>
+    <strong>Alcance 1</strong> — Emisiones directas (combustibles propios)
+  </span>
+  <span style="font-size:.82rem; color:#555; display:flex; align-items:center; gap:6px;">
+    <span style="width:12px; height:12px; background:#1565C0; border-radius:3px; display:inline-block;"></span>
+    <strong>Alcance 2</strong> — Energía eléctrica comprada (red SIN)
+  </span>
+  <span style="font-size:.82rem; color:#555; display:flex; align-items:center; gap:6px;">
+    <span style="width:12px; height:12px; background:#E65100; border-radius:3px; display:inline-block;"></span>
+    <strong>Alcance 3</strong> — Otras emisiones indirectas (residuos)
+  </span>
+  <span style="font-size:.78rem; color:#aaa; margin-left:auto;">
+    Factores: IPCC AR6 · UPME Colombia
+  </span>
+</div>
 
     <!-- Gráficas fila 1 -->
     <div class="row g-3 mb-4">
@@ -224,5 +261,9 @@ new Chart(document.getElementById('chartComparativa'), {
   },
   options: { indexAxis:'y', responsive:true, plugins:{legend:{display:false}}, scales:{ x:{beginAtZero:true, title:{display:true,text:'tCO₂e'}, grid:{color:'#F0F0F0'}}, y:{grid:{display:false}} } }
 });
+
+// Inicializar tooltips Bootstrap
+const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+tooltips.forEach(el => new bootstrap.Tooltip(el));
 </script>
 {% endblock %}
