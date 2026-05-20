@@ -1,54 +1,138 @@
 {% extends "base.html" %}
 {% block titulo %}Mis Consumos{% endblock %}
-{% block page_title %}<i class="bi bi-clipboard-data"></i> Mis Consumos — {{ entidad.nombre }}{% endblock %}
+{% block page_title %}<i class="bi bi-clipboard-data"></i> Mis Consumos{% endblock %}
+
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <span class="text-muted small">Registros de consumo energético de tu entidad</span>
-  <a href="{% url 'consumos:nuevo' %}" class="btn btn-success btn-sm">
+
+<!-- Encabezado -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h5 style="color:#0D3B22; font-weight:600; margin:0;">Registros de consumo energético</h5>
+    <span class="text-muted small">{{ entidad.nombre }}</span>
+  </div>
+  <a href="{% url 'consumos:nuevo' %}" class="btn btn-success btn-sm px-3" style="border-radius:8px;">
     <i class="bi bi-plus-circle"></i> Nuevo consumo
   </a>
 </div>
 
+<!-- Tarjetas resumen rápido -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div style="background:#fff; border-radius:12px; padding:1.2rem 1.4rem; box-shadow:0 2px 8px rgba(0,0,0,.06); border-top:4px solid #1A6B3C;">
+      <div style="font-size:1.8rem; font-weight:700; color:#1A6B3C;">{{ consumos|length }}</div>
+      <div style="font-size:.82rem; color:#777; margin-top:4px;"><i class="bi bi-clipboard-data"></i> Total registros</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div style="background:#fff; border-radius:12px; padding:1.2rem 1.4rem; box-shadow:0 2px 8px rgba(0,0,0,.06); border-top:4px solid #1A6B3C;">
+      <div style="font-size:1.8rem; font-weight:700; color:#1A6B3C;">
+        {% with alcance1=consumos|length %}{{ alcance1 }}{% endwith %}
+      </div>
+      <div style="font-size:.82rem; color:#777; margin-top:4px;"><i class="bi bi-fuel-pump"></i> Alcance 1</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div style="background:#fff; border-radius:12px; padding:1.2rem 1.4rem; box-shadow:0 2px 8px rgba(0,0,0,.06); border-top:4px solid #1565C0;">
+      <div style="font-size:1.8rem; font-weight:700; color:#1565C0;">
+        {% for c in consumos %}{% if c.alcance == 2 %}✓{% endif %}{% endfor %}
+      </div>
+      <div style="font-size:.82rem; color:#777; margin-top:4px;"><i class="bi bi-lightning-charge"></i> Alcance 2</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div style="background:#fff; border-radius:12px; padding:1.2rem 1.4rem; box-shadow:0 2px 8px rgba(0,0,0,.06); border-top:4px solid #E65100;">
+      <div style="font-size:1.8rem; font-weight:700; color:#E65100;">—</div>
+      <div style="font-size:.82rem; color:#777; margin-top:4px;"><i class="bi bi-recycle"></i> Alcance 3</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabla -->
 <div class="chart-card">
+  <h6 style="color:#0D3B22; font-weight:600; margin-bottom:1rem; padding-bottom:.75rem; border-bottom:1px solid #F0F4F1; display:flex; align-items:center; gap:7px;">
+    <i class="bi bi-table" style="color:#1A6B3C;"></i> Historial de consumos
+  </h6>
+
   {% if consumos %}
-  <table class="table table-hover table-nexergy align-middle">
-    <thead>
-      <tr>
-        <th>Tipo</th><th>Alcance</th><th class="text-center">Mes/Año</th>
-        <th class="text-end">Cantidad</th><th class="text-end">tCO₂e</th><th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in consumos %}
-      <tr>
-        <td>{{ c.factor_emision.subcategoria }}</td>
-        <td><span class="badge bg-success">Alcance {{ c.alcance }}</span></td>
-        <td class="text-center">{{ c.mes|stringformat:"02d" }}/{{ c.año }}</td>
-        <td class="text-end">{{ c.valor }} {{ c.factor_emision.unidad }}</td>
-        <td class="text-end fw-bold">
-          {% if c.emision %}{{ c.emision.tco2e|floatformat:4 }}{% else %}-{% endif %}
-        </td>
-        <td>
-          <form method="post" action="{% url 'consumos:eliminar' c.pk %}" class="d-inline">
-            {% csrf_token %}
-            <button class="btn btn-sm btn-outline-danger"
-                    onclick="return confirm('¿Eliminar este registro?')">
-              <i class="bi bi-trash"></i>
-            </button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-hover table-nexergy align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Tipo de consumo</th>
+          <th>Alcance</th>
+          <th class="text-center">Período</th>
+          <th class="text-end">Cantidad</th>
+          <th class="text-end">tCO₂e</th>
+          <th class="text-center">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in consumos %}
+        <tr>
+          <td>
+            <div style="font-weight:500; color:#0D3B22;">{{ c.factor_emision.subcategoria }}</div>
+            <div style="font-size:.78rem; color:#999;">{{ c.factor_emision.categoria }}</div>
+          </td>
+          <td>
+            {% if c.alcance == 1 %}
+              <span style="background:#E8F5E9; color:#1A6B3C; padding:4px 10px; border-radius:20px; font-size:.8rem; font-weight:500;">Alcance 1</span>
+            {% elif c.alcance == 2 %}
+              <span style="background:#E3F2FD; color:#1565C0; padding:4px 10px; border-radius:20px; font-size:.8rem; font-weight:500;">Alcance 2</span>
+            {% else %}
+              <span style="background:#FBE9E7; color:#E65100; padding:4px 10px; border-radius:20px; font-size:.8rem; font-weight:500;">Alcance 3</span>
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <span style="font-weight:500;">{{ c.mes|stringformat:"02d" }}/{{ c.año }}</span>
+          </td>
+          <td class="text-end">
+            <span style="font-weight:500;">{{ c.valor }}</span>
+            <span style="font-size:.8rem; color:#999; margin-left:2px;">{{ c.factor_emision.unidad }}</span>
+          </td>
+          <td class="text-end">
+            {% if c.emision %}
+              <span style="font-weight:700; color:#0D3B22;">{{ c.emision.tco2e|floatformat:4 }}</span>
+              <span style="font-size:.75rem; color:#999;"> tCO₂e</span>
+            {% else %}
+              <span style="color:#ccc;">—</span>
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <form method="post" action="{% url 'consumos:eliminar' c.pk %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm"
+                      style="background:#FBE9E7; color:#E65100; border:none; border-radius:8px; padding:5px 10px;"
+                      onclick="return confirm('¿Eliminar este registro? Esta acción no se puede deshacer.')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pie de tabla -->
+  <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid #F0F4F1; display:flex; justify-content:space-between; align-items:center;">
+    <span style="font-size:.85rem; color:#999;">{{ consumos|length }} registro{{ consumos|length|pluralize }} encontrado{{ consumos|length|pluralize }}</span>
+    <a href="{% url 'consumos:nuevo' %}" class="btn btn-sm btn-success px-3" style="border-radius:8px;">
+      <i class="bi bi-plus-circle"></i> Agregar consumo
+    </a>
+  </div>
+
   {% else %}
-  <div class="text-center py-5 text-muted">
-    <i class="bi bi-inbox" style="font-size:3rem;"></i>
-    <p class="mt-2">No hay consumos registrados aún.</p>
-    <a href="{% url 'consumos:nuevo' %}" class="btn btn-success">
+  <div class="text-center py-5">
+    <div style="width:72px; height:72px; background:#E8F5E9; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+      <i class="bi bi-inbox" style="font-size:2rem; color:#1A6B3C;"></i>
+    </div>
+    <h6 style="color:#0D3B22; font-weight:600;">No hay consumos registrados</h6>
+    <p class="text-muted" style="font-size:.9rem; max-width:300px; margin:0 auto .5rem;">Registra los consumos de energía, combustibles y residuos de tu entidad para calcular tu huella de carbono.</p>
+    <a href="{% url 'consumos:nuevo' %}" class="btn btn-success btn-sm px-4 mt-2" style="border-radius:8px;">
       <i class="bi bi-plus-circle"></i> Registrar primer consumo
     </a>
   </div>
   {% endif %}
 </div>
+
 {% endblock %}
