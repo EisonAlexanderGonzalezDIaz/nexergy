@@ -7,6 +7,7 @@ from recomendaciones.services import generar_recomendaciones
 from calculadora.services import (
     obtener_resumen_entidad,
     obtener_comparativa_regional,
+    obtener_tendencia_mensual,
 )
 
 def landing(request):
