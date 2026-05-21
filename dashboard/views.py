@@ -22,20 +22,24 @@ def landing(request):
         motivo   = request.POST.get('motivo', '')
         mensaje  = request.POST.get('mensaje', '')
 
-        try:
-            from django.core.mail import send_mail
-            from django.conf import settings
-            send_mail(
-                subject=f'[NEXERGY] Contacto: {motivo} — {nombre} {apellido}',
-                message=f'Nombre: {nombre} {apellido}\nCorreo: {email}\nTeléfono: {telefono}\nMotivo: {motivo}\n\nMensaje:\n{mensaje}',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.EMAIL_HOST_USER],
-                fail_silently=True,
-            )
-        except Exception:
-            pass
-
+        # Enviar correo en hilo separado para no bloquear
+        import threading
+        def enviar():
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                send_mail(
+                    subject=f'[NEXERGY] Contacto: {motivo} — {nombre} {apellido}',
+                    message=f'Nombre: {nombre} {apellido}\nCorreo: {email}\nTeléfono: {telefono}\nMotivo: {motivo}\n\nMensaje:\n{mensaje}',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.EMAIL_HOST_USER],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
+        threading.Thread(target=enviar).start()
         contacto_ok = True
+
     return render(request, 'landing.html', {'contacto_ok': contacto_ok})
 
 @login_required
