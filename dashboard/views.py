@@ -15,6 +15,26 @@ def landing(request):
         return redirect('dashboard:index')
     contacto_ok = False
     if request.method == 'POST' and request.POST.get('form_contacto'):
+        nombre   = request.POST.get('nombre', '')
+        apellido = request.POST.get('apellido', '')
+        email    = request.POST.get('email', '')
+        telefono = request.POST.get('telefono', '')
+        motivo   = request.POST.get('motivo', '')
+        mensaje  = request.POST.get('mensaje', '')
+
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            send_mail(
+                subject=f'[NEXERGY] Contacto: {motivo} — {nombre} {apellido}',
+                message=f'Nombre: {nombre} {apellido}\nCorreo: {email}\nTeléfono: {telefono}\nMotivo: {motivo}\n\nMensaje:\n{mensaje}',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=True,
+            )
+        except Exception:
+            pass
+
         contacto_ok = True
     return render(request, 'landing.html', {'contacto_ok': contacto_ok})
 
